@@ -6,6 +6,7 @@
 
 # gwt caches and compiled units #
 war/gwt_bree/
+war/obduction_translate/
 gwt-unitCache/
 
 # boilerplate generated classes #
@@ -14,7 +15,6 @@ gwt-unitCache/
 # more caches and things from deploy #
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
-war/WEB-INF/obduction_translate/
 
 # other stuff
-/test-classes
+test-classes
