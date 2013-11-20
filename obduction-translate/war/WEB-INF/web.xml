@@ -4,18 +4,28 @@
 							 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		 version="2.5"
 		 xmlns="http://java.sun.com/xml/ns/javaee">
-	
+
 	<!-- Servlets -->
 	<servlet>
 		<servlet-name>greetServlet</servlet-name>
 		<servlet-class>com.obductiongame.translate.server.GreetingServiceImpl</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>greetServlet</servlet-name>
 		<url-pattern>/obduction_translate/greet</url-pattern>
 	</servlet-mapping>
-	
+
+	<servlet>
+		<servlet-name>dialogueServlet</servlet-name>
+		<servlet-class>com.obductiongame.translate.server.DialogueServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dialogueServlet</servlet-name>
+		<url-pattern>/edit/dialogue</url-pattern>
+	</servlet-mapping>
+
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>edit.html</welcome-file>

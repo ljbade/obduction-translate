@@ -5,6 +5,7 @@
 <module rename-to="edit">
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name="com.google.gwt.user.User" />
+	<inherits name="com.google.gwt.logging.Logging" />
 	
 	<!-- Inherit the default GWT style sheet. -->
 	<inherits name="com.google.gwt.user.theme.standard.Standard" />
@@ -17,4 +18,10 @@
 	<!-- Specify the paths for translatable code -->
 	<source path="client" />
 	<source path="shared" />
+	
+	<!--  Configure the logging -->
+	<set-property name="gwt.logging.enabled" value="TRUE" />
+	<set-property name="gwt.logging.logLevel" value="SEVERE" />
+	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
+	<set-property name="gwt.logging.simpleRemoteHandler" value="ENABLED" />
 </module>
