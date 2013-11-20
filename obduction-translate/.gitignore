@@ -6,6 +6,7 @@
 
 # gwt caches and compiled units #
 .gwt
+war/edit/
 war/gwt_bree/
 war/obduction_translate/
 gwt-unitCache/
