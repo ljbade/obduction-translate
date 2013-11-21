@@ -1,6 +1,7 @@
 package com.obductiongame.translate.client;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,10 +17,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.obductiongame.translate.shared.DialogueLine;
+import com.obductiongame.translate.shared.Language;
 
 public class Edit implements EntryPoint {
 
@@ -30,19 +33,20 @@ public class Edit implements EntryPoint {
 
 	private final TextBox newDialogueIDTextBox = new TextBox();
 	private final TextBox newDialogueTextBox = new TextBox();
-	private final TextBox newDialogueLanguageTextBox = new TextBox();
+	private final ListBox newDialogueLanguageListBox = new ListBox();
 	private final Button addDialogueButton = new Button("Add");
 	private final Button cancelDialogueButton = new Button("Cancel");
 	private final HorizontalPanel addPanel = new HorizontalPanel();
 
-	private final ArrayList<DialogueLine> lines = new ArrayList<DialogueLine>();
+	private final ArrayList<DialogueLine> lineList = new ArrayList<DialogueLine>();
+	private final TreeMap<String, String> languageMap = new TreeMap<String, String>();
+
 	private DialogueServiceAsync dialogueService = GWT.create(DialogueService.class);
 
 	public void onModuleLoad() {
 		LOG.log(Level.INFO, "onModuleLoad(): called");
 
 		// Create the table of dialogue lines
-		// TODO: keep table sorted
 		// TODO: need to handle unsync between client and server
 		// TODO: need to make consistent group?
 		// TODO: need to handle gap between user submit data and it shows up
@@ -58,7 +62,7 @@ public class Edit implements EntryPoint {
 		// Create the add new dialogue panel
 		addPanel.add(newDialogueIDTextBox);
 		addPanel.add(newDialogueTextBox);
-		addPanel.add(newDialogueLanguageTextBox);
+		addPanel.add(newDialogueLanguageListBox);
 		addPanel.add(addDialogueButton);
 		addPanel.add(cancelDialogueButton);
 		RootPanel.get("content").add(addPanel);
@@ -90,11 +94,14 @@ public class Edit implements EntryPoint {
 				LOG.log(Level.INFO, "cancelDialogueButton.onClick(): called with " + event.toDebugString());
 				newDialogueIDTextBox.setText("");
 				newDialogueTextBox.setText("");
-				newDialogueLanguageTextBox.setText("");
+				newDialogueLanguageListBox.setSelectedIndex(0);
 				newDialogueIDTextBox.setFocus(true);
 			}
 		});
-		
+
+		// Load the languages
+		loadLanguages();
+
 		// Load existing dialogue
 		loadDialogue();
 	}
@@ -114,11 +121,11 @@ public class Edit implements EntryPoint {
 			return;
 		}
 
-		final DialogueLine line = new DialogueLine(id, newDialogueTextBox.getText(), newDialogueLanguageTextBox.getText());
+		final DialogueLine line = new DialogueLine(id, newDialogueTextBox.getText(), newDialogueLanguageListBox.getValue(newDialogueLanguageListBox.getSelectedIndex()));
 		LOG.log(Level.INFO, "addDialogue(): line = " + line.toString());
 
 		// Check an identical dialogue line is not already present
-		if (lines.contains(line)) {// TODO: need to relax? only check on lineId and languae, also need to repeat this on the server
+		if (lineList.contains(line)) {
 			Window.alert("A dialogue line with the same ID and language already exists.");
 			LOG.log(Level.INFO, "addDialogue(): A dialogue line with the same ID and language already exists.");
 			newDialogueIDTextBox.selectAll();
@@ -129,7 +136,7 @@ public class Edit implements EntryPoint {
 		// Clear the text boxes and reset focus
 		newDialogueIDTextBox.setText("");
 		newDialogueTextBox.setText("");
-		newDialogueLanguageTextBox.setText("");
+		newDialogueLanguageListBox.setSelectedIndex(0);
 		newDialogueIDTextBox.setFocus(true);
 
 		// Initialise the service proxy
@@ -139,10 +146,11 @@ public class Edit implements EntryPoint {
 
 		// Add the dialogue line
 		LOG.log(Level.INFO, "addDialogue(): calling addLine()");
-		dialogueService.addLine(line, new AsyncCallback<Void>() {
-			public void onSuccess(Void result) {
+		dialogueService.addLine(line, new AsyncCallback<String>() {
+			public void onSuccess(String result) {
 				LOG.log(Level.INFO, "addLine(): success");
-				addTableRow(line);
+				line.setKey(result);
+				insertTableRow(line);
 			}
 
 			@Override
@@ -152,15 +160,36 @@ public class Edit implements EntryPoint {
 			}
 		});
 	}
-
-	private void addTableRow(final DialogueLine line) {
+	
+	private void addTableRow(DialogueLine line) {
 		LOG.log(Level.INFO, "addTableRow(): called with " + line.toString());
+		createTableRow(line, false);
+	}
+	
+	private void insertTableRow(DialogueLine line) {
+		LOG.log(Level.INFO, "insertTableRow(): called with " + line.toString());
+		createTableRow(line, true);
+	}
 
-		lines.add(line);
+	private void createTableRow(final DialogueLine line, boolean sort) {
+		LOG.log(Level.INFO, "createTableRow(): called with " + line.toString() + ", " + Boolean.toString(sort));
+
 		int row = dialogueFlexTable.getRowCount();
-		dialogueFlexTable.setText(row, 0, Integer.toString(line.getLineId()));
+		if (sort) {
+			for (row = 1; row < dialogueFlexTable.getRowCount(); row++) {
+				if (lineList.get(row - 1).compareTo(line) >= 0) {
+					break;
+				}
+			}
+		}
+
+		lineList.add(row - 1, line);
+		//if (row != dialogueFlexTable.getRowCount()) {
+			dialogueFlexTable.insertRow(row);
+		//}
+		dialogueFlexTable.setText(row, 0, Integer.toString(line.getId()));
 		dialogueFlexTable.setText(row, 1, line.getDialogue());
-		dialogueFlexTable.setText(row, 2, line.getLanguage());
+		dialogueFlexTable.setText(row, 2, languageMap.get(line.getLanguage().toLowerCase()));
 
 		// Add the edit button
 		// TODO: make work in place and not delete before add
@@ -192,19 +221,23 @@ public class Edit implements EntryPoint {
 			dialogueService = GWT.create(DialogueService.class);
 		}
 
-		dialogueService.deleteLine(line.getId(), new AsyncCallback<Void>() {
+		dialogueService.deleteLine(line.getKey(), new AsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
 				LOG.log(Level.INFO, "deleteLine(): success");
-				int deletedIndex = lines.indexOf(line);
-				lines.remove(deletedIndex);
+				int deletedIndex = lineList.indexOf(line);
+				if (deletedIndex == -1) {
+					LOG.log(Level.WARNING, "deleteLine(): line " + line.toString() + " not found");
+					return;
+				}
+				lineList.remove(deletedIndex);
 				dialogueFlexTable.removeRow(deletedIndex + 1);
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				LOG.log(Level.SEVERE, "deleteLine(): failure: " + caught.getMessage());
-				Window.alert("Error: " + caught.getMessage());
+				LOG.log(Level.SEVERE, "deleteLine(): failure: " + caught.toString());//TODO:exceptions
+				Window.alert("Error: " + caught.toString());
 			}
 		});
 	}
@@ -213,9 +246,20 @@ public class Edit implements EntryPoint {
 		LOG.log(Level.INFO, "editDialogue(): called with " + line.toString());
 
 		deleteDialogue(line);
-		newDialogueIDTextBox.setText(Integer.toString(line.getLineId()));
+		newDialogueIDTextBox.setText(Integer.toString(line.getId()));
 		newDialogueTextBox.setText(line.getDialogue());
-		newDialogueLanguageTextBox.setText(line.getLanguage());
+		newDialogueLanguageListBox.setSelectedIndex(0);
+		for (int i = 0; i < newDialogueLanguageListBox.getItemCount(); i++) {
+			boolean found = false;
+			if (line.getLanguage().equals(newDialogueLanguageListBox.getValue(i))) {
+				newDialogueLanguageListBox.setSelectedIndex(i);
+				found = true;
+			}
+			if (!found) {
+				newDialogueLanguageListBox.setSelectedIndex(0);
+				LOG.log(Level.WARNING, "editDialogue(): language '" + line.getLanguage() + "' not found");
+			}
+		}
 		newDialogueTextBox.selectAll();
 		newDialogueTextBox.setFocus(true);
 	}
@@ -233,8 +277,7 @@ public class Edit implements EntryPoint {
 			public void onSuccess(DialogueLine[] result) {
 				LOG.log(Level.INFO, "getLines(): success");
 				if (result != null) {
-					for (int i = 0; i < result.length; i++) {
-						DialogueLine line = result[i];
+					for (DialogueLine line : result) {
 						addTableRow(line);
 					}
 				}
@@ -242,8 +285,36 @@ public class Edit implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) { // TODO: need better error handling of random errors like the "0" error for network problem
-				LOG.log(Level.SEVERE, "getLines(): failure: " + caught.getMessage());
-				Window.alert("Error: " + caught.getMessage());
+				LOG.log(Level.SEVERE, "getLines(): failure: " + caught.toString());
+				Window.alert("Error: " + caught.toString());
+			}
+		});
+	}
+
+	private void loadLanguages() {
+		LOG.log(Level.INFO, "loadLanguages(): called");
+
+		// Initialise the service proxy
+		if (dialogueService == null) {
+			dialogueService = GWT.create(DialogueService.class);
+		}
+
+		dialogueService.getLanguages(new AsyncCallback<Language[]>() {
+			@Override
+			public void onSuccess(Language[] result) {
+				LOG.log(Level.INFO, "getLanguages(): success");
+				if (result != null) {
+					for (Language language : result) {
+						newDialogueLanguageListBox.addItem(language.getName(), language.getCode());
+						languageMap.put(language.getCode().toLowerCase(), language.getName());
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) { // TODO: need better error handling of random errors like the "0" error for network problem
+				LOG.log(Level.SEVERE, "getLanguages(): failure: " + caught.toString());
+				Window.alert("Error: " + caught.toString());
 			}
 		});
 	}
