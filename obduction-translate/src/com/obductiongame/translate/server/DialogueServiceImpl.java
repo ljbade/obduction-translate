@@ -3,7 +3,6 @@ package com.obductiongame.translate.server;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +13,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.ibm.icu.util.ULocale;
 import com.obductiongame.translate.client.DialogueService;
 import com.obductiongame.translate.shared.DialogueLine;
 import com.obductiongame.translate.shared.Language;
@@ -102,9 +102,9 @@ public class DialogueServiceImpl extends RemoteServiceServlet implements
 			LOG.log(Level.INFO, "getLanguages(): languagesArray is null, creating");
 			ArrayList<Language> languages = new ArrayList<Language>();
 			
-			String[] languageCodes = Locale.getISOLanguages();
+			String[] languageCodes = ULocale.getISOLanguages();
 			for (String languageCode : languageCodes) {
-				String languageName = new Locale(languageCode).getDisplayLanguage(Locale.ENGLISH);
+				String languageName = new ULocale(languageCode).getDisplayLanguage(ULocale.ENGLISH);
 				languages.add(new Language(languageCode, languageName));
 			}
 	

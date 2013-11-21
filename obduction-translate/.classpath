@@ -5,5 +5,27 @@
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/appengine-utils-client-1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/appengine-utils-server-1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/icu4j-52_1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://icu-project.org/apiref/icu4j/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/icu4j-charset-52_1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://icu-project.org/apiref/icu4j/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/icu4j-localespi-52_1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://icu-project.org/apiref/icu4j/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-4.0rc2.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://docs.objectify-appengine.googlecode.com/git/apidocs/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
