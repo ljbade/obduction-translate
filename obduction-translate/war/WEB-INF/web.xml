@@ -6,28 +6,47 @@
 		 xmlns="http://java.sun.com/xml/ns/javaee">
 
 	<!-- Servlets -->
-	<servlet>
-		<servlet-name>greetServlet</servlet-name>
-		<servlet-class>com.obductiongame.translate.server.GreetingServiceImpl</servlet-class>
-	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>greetServlet</servlet-name>
-		<url-pattern>/obduction_translate/greet</url-pattern>
-	</servlet-mapping>
-
+	<!-- Dialogue service -->
 	<servlet>
-		<servlet-name>dialogueServlet</servlet-name>
+		<servlet-name>dialogue</servlet-name>
 		<servlet-class>com.obductiongame.translate.server.DialogueServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>dialogueServlet</servlet-name>
-		<url-pattern>/edit/dialogue</url-pattern>
+		<servlet-name>dialogue</servlet-name>
+		<url-pattern>/main/dialogue</url-pattern>
+	</servlet-mapping>
+
+	<!-- XSRF protection service -->
+	<servlet>
+		<servlet-name>xsrf</servlet-name>
+		<servlet-class>com.google.gwt.user.server.rpc.XsrfTokenServiceServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>xsrf</servlet-name>
+		<url-pattern>/main/xsrf</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>gwt.xsrf.session_cookie_name</param-name>
+		<param-value>JSESSIONID</param-value>
+	</context-param>
+
+	<!-- GWT logging service -->
+	<servlet>
+		<servlet-name>remoteLogging</servlet-name>
+		<servlet-class>com.google.gwt.logging.server.RemoteLoggingServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>remoteLogging</servlet-name>
+		<url-pattern>/main/remote_logging</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>edit.html</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 </web-app>

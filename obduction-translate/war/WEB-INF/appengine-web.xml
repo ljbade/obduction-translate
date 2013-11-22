@@ -20,9 +20,4 @@
 	<!-- Enable HTTP sessions -->
 	<sessions-enabled>true</sessions-enabled>
 	<async-session-persistence enabled="true" />
-	
-	<!--  Default to UTF-8 -->
-	<env-variables>
-		<env-var name="DEFAULT_ENCODING" value="UTF-8" />
-	</env-variables>
 </appengine-web-app>

@@ -2,7 +2,7 @@
 <!-- Update this DTD when updating GWT -->
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.1//EN"
 						"http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
-<module rename-to="edit">
+<module rename-to="main">
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.google.gwt.logging.Logging" />
@@ -11,10 +11,19 @@
 	<inherits name="com.google.gwt.user.theme.standard.Standard" />
 	
 	<!-- Other module inherits -->
+	<inherits name="com.google.gwt.activity.Activity" />
+	<inherits name="com.google.gwt.place.Place" />
 	<inherits name="com.resmarksystems.AppEngineDataTypes" />
+	<inherits name="com.googlecode.objectify.Objectify" />
 	
 	<!-- Specify the app entry point class. -->
-	<entry-point class="com.obductiongame.translate.client.Edit" />
+	<entry-point class="com.obductiongame.translate.client.MainModule" />
+	
+	<!-- Specify late bindings -->
+	<!-- Use ClientFactoryImpl by default -->
+	<replace-with class="com.obductiongame.translate.client.ClientFactoryImpl">
+		<when-type-is class="com.obductiongame.translate.client.ClientFactory"/>
+	</replace-with>
 	
 	<!-- Specify the paths for translatable code -->
 	<source path="client" />

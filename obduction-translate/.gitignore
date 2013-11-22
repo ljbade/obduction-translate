@@ -6,9 +6,8 @@
 
 # gwt caches and compiled units #
 .gwt/
-war/edit/
+war/main/
 war/gwt_bree/
-war/obduction_translate/
 gwt-unitCache/
 
 # boilerplate generated classes #

@@ -12,15 +12,15 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.gwt.user.server.rpc.XsrfProtectedServiceServlet;
 import com.ibm.icu.util.ULocale;
 import com.obductiongame.translate.client.DialogueService;
 import com.obductiongame.translate.shared.DialogueLine;
 import com.obductiongame.translate.shared.Language;
 
 @SuppressWarnings("serial")
-public class DialogueServiceImpl extends RemoteServiceServlet implements
-		DialogueService {
+public class DialogueServiceImpl extends XsrfProtectedServiceServlet implements
+		DialogueService {//TODO: maven (probably not)? http://bpossolo.blogspot.com.au/2013/01/the-ultimate-guide-to-gwt-gae-maven.html
 
 	private static final Logger LOG = Logger.getLogger(DialogueServiceImpl.class.getName());
 	private static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
@@ -53,10 +53,9 @@ public class DialogueServiceImpl extends RemoteServiceServlet implements
 	public String addLine(DialogueLine line) throws Exception { // TODO: check for valid language
 		LOG.log(Level.INFO, "addLine(): called");// TODO: need to relax? only check on id and language, also need to repeat this on the server
 
-		if (Arrays.binarySearch(getLanguages(), new Language(line.getLanguage())) < 0) {//TODO: test bad lang afer fixed
-			//FIXME:always fails
+		if (Arrays.binarySearch(getLanguages(), new Language(line.getLanguage())) < 0) {
 			LOG.log(Level.INFO, "addLine(): The dialogue line has an invalid language code.");
-			//throw new Exception("The dialogue line has an invalid language code.");
+			throw new Exception("The dialogue line has an invalid language code.");
 		}
 
 		String key;
@@ -94,8 +93,11 @@ public class DialogueServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public Language[] getLanguages() {// TODO: Should cache this data
-		// TODO: languages should probably be store in the db
+	public Language[] getLanguages() {// TODO: Should cache this data, JSON?
+		//http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsOverlay.html
+		//https://code.google.com/p/itemscript/
+		// TODO: languages should probably be store in the db (Not so sure)
+		// TODO: use warmup and load-on-startup and init()
 		LOG.log(Level.INFO, "getLanguages(): called");
 
 		if (languagesArray == null) {
