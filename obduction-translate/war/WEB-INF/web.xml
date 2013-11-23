@@ -1,21 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 							 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-		 version="2.5"
-		 xmlns="http://java.sun.com/xml/ns/javaee">
+		 version="2.5">
 
 	<!-- Servlets -->
 
 	<!-- Dialogue service -->
 	<servlet>
 		<servlet-name>dialogue</servlet-name>
-		<servlet-class>com.obductiongame.translate.server.DialogueServiceImpl</servlet-class>
+		<servlet-class>com.obductiongame.translate.server.service.DialogueServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>dialogue</servlet-name>
 		<url-pattern>/main/dialogue</url-pattern>
+	</servlet-mapping>
+
+	<!-- Request factory -->
+	<servlet>
+		<servlet-name>requestFactory</servlet-name>
+		<servlet-class>com.obductiongame.translate.server.CustomRequestFactoryServlet</servlet-class>
+		<init-param> 
+			<param-name>symbolMapsDirectory</param-name>
+			<param-value>WEB-INF/deploy/main/symbolMaps/</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>requestFactory</servlet-name>
+		<url-pattern>/gwtRequest</url-pattern>
 	</servlet-mapping>
 
 	<!-- XSRF protection service -->
@@ -38,6 +53,11 @@
 	<servlet>
 		<servlet-name>remoteLogging</servlet-name>
 		<servlet-class>com.google.gwt.logging.server.RemoteLoggingServiceImpl</servlet-class>
+
+		 <init-param>
+			<param-name>symbolMaps</param-name>
+			<param-value>WEB-INF/deploy/main/symbolMaps/</param-value>
+		</init-param>
 	</servlet>
 
 	<servlet-mapping>
@@ -47,6 +67,6 @@
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>

@@ -1,13 +1,35 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ page import="com.obductiongame.translate.server.LanguageLoader" %>
+<%@ page import="com.obductiongame.translate.shared.Language" %>
+
+<%@ taglib prefix="json" uri="http://www.atg.com/taglibs/json" %>
+
+<%
+	Language[] languages = LanguageLoader.getLanguages();
+	pageContext.setAttribute("languages", languages);
+%>
+
 <!doctype html>
 
 <html>
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 
 		<title>Obduction Translate</title>
 
+		<!-- Include static JSON data here for faster loading and caching -->
+		<script type="text/javascript">
+			var languages = <json:array var="language" items="${languages}">
+								<json:object>
+									<json:property name="name" value="${language.name}" />
+									<json:property name="code" value="${language.code}" />
+								</json:object>
+							</json:array>;
+		</script>
+
 		<!-- Load the compiled GWT module. All GWT meta tags must go before this. -->
-		<script type="text/javascript" language="javascript" src="main/main.nocache.js"></script>
+		<script type="text/javascript" src="main/main.nocache.js"></script>
 	</head>
 
 	<body>
@@ -25,7 +47,7 @@
 	<!--<div id="loading" style="display: none">
 		<div id="progressbar" style="margin: 15px; width: 300px; height: 10px; border: 2px solid black; overflow: hidden;">
 			<div id="progress" style="background: silver; height: 100%; width: 0;"></div>
-			<script type="text/javascript">
+			<script type="text/javascript" language="javascript">
 				var loading = document.getElementById('loading');
 				var progress = document.getElementById('progress');
 				var progressbar = document.getElementById('progressbar');
@@ -52,5 +74,5 @@
 	<!-- All GWT content will appear here. -->
 
 	<!-- Load the compiled GWT module. All GWT meta tags must go before this. -->
-	<!-- <script type="text/javascript" language="javascript" src="edit/edit.nocache.js"></script> -->
+	<!-- <script type="text/javascript" src="edit/edit.nocache.js"></script> -->
 </html>

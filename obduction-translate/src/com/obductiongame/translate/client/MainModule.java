@@ -1,40 +1,35 @@
 package com.obductiongame.translate.client;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.HasRpcToken;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.rpc.XsrfToken;
-import com.google.gwt.user.client.rpc.XsrfTokenServiceAsync;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.web.bindery.event.shared.EventBus;
+import com.obductiongame.translate.client.ErrorHandler.ErrorExceptionHandler;
+import com.obductiongame.translate.client.view.EditPlace;
 
 public class MainModule implements EntryPoint {// TODO:http://www.google.com/events/io/2009/sessions/GoogleWebToolkitBestPractices.html
-// TODO: use gwt 2.0 layouts
 	//TODO: use cell table!
 	//TODO: use ui binder
 	// TODO: use ui editors
 	// TODO: use request factory
 	//TODO:jsr 303
 	//TODO: command pattern rpc/event bus
-	// TODO: remove unnused libs and import modules
-	private static final Logger LOG = Logger.getLogger(MainModule.class.getName());
+	//TODO: use xsrf/safehtml
+	//TODO: remove too much logging?
+	//TODO:collate into todo file
 
 	private final ClientFactory clientFactory = GWT.create(ClientFactory.class);
 
@@ -48,35 +43,22 @@ public class MainModule implements EntryPoint {// TODO:http://www.google.com/eve
 	private final PlaceHistoryMapper historyMapper= GWT.create(MainPlaceHistoryMapper.class);
 	private final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
 
-	private final XsrfTokenServiceAsync xsrfService = clientFactory.getXsrfService();
-
 	private final DockLayoutPanel layoutPanel = new DockLayoutPanel(Unit.EM);
 	private final SimplePanel activityPanel = new SimplePanel();
 
 	public void onModuleLoad() {
-		LOG.log(Level.INFO, "onModuleLoad(): called");
+		// Set a custom exception handler
+		GWT.setUncaughtExceptionHandler(new ErrorExceptionHandler());
 
-		// Load the XSRF service
-		((ServiceDefTarget)xsrfService).setServiceEntryPoint(GWT.getModuleBaseURL() + "xsrf");
-		xsrfService.getNewXsrfToken(new AsyncCallback<XsrfToken>() {
-			@Override
-			public void onSuccess(XsrfToken token) {
-				// Load the services
-				((HasRpcToken) clientFactory.getDialogueService()).setRpcToken(token);
-
-				onServicesLoaded();
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {//TODO: better error handling
-				//TODO:HasRpcToken.setRpcTokenExceptionHandler()
-				LOG.log(Level.SEVERE, "getNewXsrfToken(): failure: " + caught.toString());
-				Window.alert("Error: " + caught.toString());
+		// Workaround for uncaught exceptions
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			public void execute() {
+				onModuleLoad2();
 			}
 		});
 	}
 
-	private void onServicesLoaded() {
+	private void onModuleLoad2() {
 		// Start ActivityManager for the main widget with our ActivityMapper
 		activityManager.setDisplay(activityPanel);
 
@@ -87,7 +69,7 @@ public class MainModule implements EntryPoint {// TODO:http://www.google.com/eve
 		historyHandler.handleCurrentHistory();
 
 		// Create the layout
-		layoutPanel.addNorth(new HTML("<h1>Obduction Translate</h1><h2>Edit</h2>"), 8);//TODO:replace with ui binder, safehtml
+		layoutPanel.addNorth(new HTML("<h1>Obduction Translate</h1><h2>Edit</h2>"), 8);//TODO:replace with ui binder
 		layoutPanel.addSouth(new Label("Footer"), 2);
 		layoutPanel.addWest(new Label("Menu"), 6);
 		layoutPanel.add(activityPanel);

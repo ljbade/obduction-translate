@@ -1,4 +1,4 @@
-package com.obductiongame.translate.client;
+package com.obductiongame.translate.client.view;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,7 +9,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.obductiongame.translate.shared.DialogueLine;
+import com.obductiongame.translate.client.proxy.DialogueLineProxy;
 import com.obductiongame.translate.shared.Language;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -35,14 +35,9 @@ public class EditViewImpl extends Composite implements EditView {
 	private final Button cancelButton = new Button("Cancel");
 
 	public EditViewImpl() {
-		LOG.log(Level.INFO, "EditViewImpl(): called");
-
 		initWidget(rootPanel);
 
 		// Create the table of dialogue lines
-		// TODO: need to handle unsync between client and server
-		// TODO: need to make consistent group?
-		// TODO: need to handle gap between user submit data and it shows up
 		// TODO: update when new data is posted?
 		rootPanel.add(dialogueFlexTable);
 
@@ -57,7 +52,6 @@ public class EditViewImpl extends Composite implements EditView {
 		// Listen for a click on the add button
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				LOG.log(Level.INFO, "addDialogButton.onClick(): called with " + event.toDebugString());
 				internalAddDialogue();
 			}
 		});
@@ -65,7 +59,6 @@ public class EditViewImpl extends Composite implements EditView {
 		// Listen for enter in the input box.
 		editDialogueTextBox.addKeyDownHandler(new KeyDownHandler() {
 			public void onKeyDown(KeyDownEvent event) {
-				LOG.log(Level.INFO, "addDialogButton.onKeyDown(): called with " + event.toDebugString());
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					internalAddDialogue();
 				}
@@ -75,7 +68,6 @@ public class EditViewImpl extends Composite implements EditView {
 		// Listen for a click on the cancel button
 		cancelButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				LOG.log(Level.INFO, "cancelDialogueButton.onClick(): called with " + event.toDebugString());
 				editIdTextBox.setText("");
 				editDialogueTextBox.setText("");
 				editLanguageListBox.setSelectedIndex(0);
@@ -85,20 +77,16 @@ public class EditViewImpl extends Composite implements EditView {
 	}
 
 	private void internalAddDialogue() {
-		LOG.log(Level.INFO, "internalAddDialogue(): called");
 		presenter.addDialogue(editIdTextBox.getText(), editDialogueTextBox.getText(), editLanguageListBox.getValue(editLanguageListBox.getSelectedIndex()));
 	}
 
 	@Override
 	public void setPresenter(Presenter presenter) {
-		LOG.log(Level.INFO, "setPresenter(): called with " + presenter);
 		this.presenter = presenter;
 	}
 
 	@Override
 	public void reset() {
-		LOG.log(Level.INFO, "reset(): called");
-
 		// Create the table header
 		dialogueFlexTable.removeAllRows();
 		dialogueFlexTable.setText(0, 0, "ID");
@@ -115,20 +103,16 @@ public class EditViewImpl extends Composite implements EditView {
 	}
 
 	@Override
-	public void addDialogue(DialogueLine line) {
-		LOG.log(Level.INFO, "addDialogue(): called with " + line.toString());
+	public void addDialogue(DialogueLineProxy line) {
 		createTableRow(line, dialogueFlexTable.getRowCount() - 1);
 	}
 
 	@Override
-	public void insertDialogue(DialogueLine line, int index) {
-		LOG.log(Level.INFO, "insertDialogue(): called with " + line.toString() + ", " + Integer.toString(index));
+	public void insertDialogue(DialogueLineProxy line, int index) {
 		createTableRow(line, index);
 	}
 //
-	private void createTableRow(final DialogueLine line, final int index) {
-		LOG.log(Level.INFO, "createTableRow(): called with " + line.toString() + ", " + Integer.toString(index));
-
+	private void createTableRow(final DialogueLineProxy line, int index) {
 		dialogueFlexTable.insertRow(index + 1);
 		dialogueFlexTable.setText(index + 1, 0, Integer.toString(line.getId()));
 		dialogueFlexTable.setText(index + 1, 1, line.getDialogue());
@@ -139,8 +123,7 @@ public class EditViewImpl extends Composite implements EditView {
 		Button editDialogueButton = new Button("Edit");
 		editDialogueButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				LOG.log(Level.INFO, "editDialogueButton.onClick(): called with " + event.toDebugString());
-				presenter.editDialogue(index);
+				presenter.editDialogue(line);
 			}
 		});
 		dialogueFlexTable.setWidget(index + 1, 3, editDialogueButton);
@@ -149,8 +132,7 @@ public class EditViewImpl extends Composite implements EditView {
 		Button deleteDialogueButton = new Button("Delete");
 		deleteDialogueButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				LOG.log(Level.INFO, "deleteDialogueButton.onClick(): called with " + event.toDebugString());
-				presenter.deleteDialogue(index);
+				presenter.deleteDialogue(line);
 			}
 		});
 		dialogueFlexTable.setWidget(index + 1, 4, deleteDialogueButton);
@@ -158,13 +140,11 @@ public class EditViewImpl extends Composite implements EditView {
 
 	@Override
 	public void deleteDialogue(int index) {
-		LOG.log(Level.INFO, "deleteDialogue(): called with " + Integer.toString(index));
 		dialogueFlexTable.removeRow(index + 1);
 	}
 
 	@Override
-	public void editDialogue(DialogueLine line) {
-		LOG.log(Level.INFO, "editDialogue(): called with " + line.toString());
+	public void editDialogue(DialogueLineProxy line) {
 		editIdTextBox.setText(Integer.toString(line.getId()));
 		editDialogueTextBox.setText(line.getDialogue());
 		editLanguageListBox.setSelectedIndex(0);
@@ -178,7 +158,7 @@ public class EditViewImpl extends Composite implements EditView {
 		}
 		if (!found) {
 			editLanguageListBox.setSelectedIndex(0);
-			LOG.log(Level.WARNING, "editDialogue(): language '" + line.getLanguage() + "' not found");
+			LOG.log(Level.WARNING, "Language '" + line.getLanguage() + "' not found");
 		}
 		editDialogueTextBox.selectAll();
 		editDialogueTextBox.setFocus(true);
@@ -186,26 +166,22 @@ public class EditViewImpl extends Composite implements EditView {
 
 	@Override
 	public void addLanguage(Language language) {
-		LOG.log(Level.INFO, "addLanguage(): called with " + language.toString());
 		editLanguageListBox.addItem(language.getName(), language.getCode());
 	}
 
 	@Override
 	public void setDialogueLanguage(String language, int index) {
-		LOG.log(Level.INFO, "setDialogueLanguage(): called with " + language.toString() + ", " + Integer.toString(index));
 		dialogueFlexTable.setText(index + 1, 2, language);
 	}
 
 	@Override
 	public void selectDialogueId() {
-		LOG.log(Level.INFO, "selectDialogueId(): called");
 		editIdTextBox.selectAll();
 		editIdTextBox.setFocus(true);
 	}
 
 	@Override
 	public void clearDialogue() {
-		LOG.log(Level.INFO, "clearDialogue(): called");
 		editIdTextBox.setText("");
 		editDialogueTextBox.setText("");
 		editLanguageListBox.setSelectedIndex(0);

@@ -1,4 +1,4 @@
-package com.obductiongame.translate.shared;
+package com.obductiongame.translate.server.entity;
 
 import java.io.Serializable;
 
@@ -8,18 +8,24 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Version;
+import javax.jdo.annotations.VersionStrategy;
 
 @SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
+@Version(strategy = VersionStrategy.VERSION_NUMBER,
+	extensions = { @Extension(vendorName = "datanucleus", key = "field-name", value = "version") })
 public class DialogueLine implements Serializable, Comparable<DialogueLine> {
 	// TODO: use http://www.resmarksystems.com/code/
 	// TODO: https://code.google.com/p/objectify-appengine/?
 	// TODO: use ICU4J?
 
 	@PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String key;
+	@Persistent
+	private long version;
 	@Persistent
 	private int id;
 	@Persistent
@@ -27,15 +33,7 @@ public class DialogueLine implements Serializable, Comparable<DialogueLine> {
 	@Persistent
 	private String language;
 
-	@SuppressWarnings("unused")
-	private DialogueLine() {
-	}
-
-	public DialogueLine(int id, String dialogue, String language) {
-		super();
-		this.id = id;
-		this.dialogue = dialogue;
-		this.language = language;
+	public DialogueLine() {
 	}
 
 	public String getKey() {
@@ -44,6 +42,14 @@ public class DialogueLine implements Serializable, Comparable<DialogueLine> {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
 	}
 
 	public int getId() {
@@ -69,7 +75,7 @@ public class DialogueLine implements Serializable, Comparable<DialogueLine> {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
+//TODO: change all the functions after conversion to entity proxy?
 	@Override
 	public int hashCode() {
 		final int prime = 31;
