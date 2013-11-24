@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
@@ -65,8 +65,34 @@
 		<url-pattern>/main/remote_logging</url-pattern>
 	</servlet-mapping>
 
+	<filter>
+		<filter-name>charSetFilter</filter-name>
+		<filter-class>com.obductiongame.translate.server.CharacterEncodingFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>charSetFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+
+	<!-- MIME types -->
+	<mime-mapping>
+		<extension>html</extension>
+		<mime-type>text/html; charset=UTF-8</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>css</extension>
+		<mime-type>text/css; charset=UTF-8</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>js</extension>
+		<mime-type>application/javascript; charset=UTF-8</mime-type>
+	</mime-mapping>
+
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 </web-app>

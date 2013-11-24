@@ -13,8 +13,8 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 @SuppressWarnings("serial")
 public class CustomRequestFactoryServlet extends RequestFactoryServlet {
 
-	static class LoquaciousExceptionHandler implements ExceptionHandler {
-		private static final Logger LOG = Logger.getLogger(LoquaciousExceptionHandler.class.getName());
+	static class LoggingExceptionHandler implements ExceptionHandler {
+		private static final Logger LOG = Logger.getLogger(LoggingExceptionHandler.class.getName());
 
 		@Override
 		public ServerFailure createServerFailure(Throwable throwable) {
@@ -31,7 +31,7 @@ public class CustomRequestFactoryServlet extends RequestFactoryServlet {
 	}
 
 	public CustomRequestFactoryServlet() {
-		super( new LoquaciousExceptionHandler() );
+		super( new LoggingExceptionHandler() );
 	}
 
 }

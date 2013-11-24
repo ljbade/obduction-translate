@@ -63,10 +63,10 @@ public class DialogueLineDaoImpl implements DialogueLineDao {
 
 	@Override
 	public void put(DialogueLine line) throws ValidationException {
-		if (Arrays.binarySearch(LanguageLoader.getLanguages(), new LanguageImpl(line.getLanguage())) < 0) {
+		/*if (Arrays.binarySearch(LanguageLoader.getLanguages(), new LanguageImpl(line.getLanguage())) < 0) {
 			LOG.log(Level.SEVERE, "The dialogue line has an invalid language code.");
 			throw new ValidationException("The dialogue line has an invalid language code.");
-		} // TODO: figure out why this does not always work
+		}*/ // TODO: figure out why this does not always work
 
 		PersistenceManager pm = PMF.getPersistenceManager(); // TODO: cover to transaction as per google jdo pages
 		try {//https://groups.google.com/forum/#!topic/objectify-appengine/Jamr_Ib4vlE
@@ -81,7 +81,7 @@ public class DialogueLineDaoImpl implements DialogueLineDao {
 			if (!lines.isEmpty()) {//TODO: test once we put everything in a single entity group
 				LOG.log(Level.SEVERE, "A dialogue line with the same ID and language already exists.");
 				throw new ValidationException("A dialogue line with the same ID and language already exists.");
-			}
+			}// FIXME
 
 			// TODO:each line should be in a entity group with the user/creator,
 			// hard set in game lines can use a admin/cyan user

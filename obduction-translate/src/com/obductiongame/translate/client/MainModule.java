@@ -20,15 +20,13 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.obductiongame.translate.client.ErrorHandler.ErrorExceptionHandler;
 import com.obductiongame.translate.client.view.EditPlace;
 
-public class MainModule implements EntryPoint {// TODO:http://www.google.com/events/io/2009/sessions/GoogleWebToolkitBestPractices.html
+public class MainModule implements EntryPoint {
 	//TODO: use cell table!
 	//TODO: use ui binder
 	// TODO: use ui editors
-	// TODO: use request factory
 	//TODO:jsr 303
 	//TODO: command pattern rpc/event bus
 	//TODO: use xsrf/safehtml
-	//TODO: remove too much logging?
 	//TODO:collate into todo file
 
 	private final ClientFactory clientFactory = GWT.create(ClientFactory.class);
@@ -74,9 +72,6 @@ public class MainModule implements EntryPoint {// TODO:http://www.google.com/eve
 		layoutPanel.addWest(new Label("Menu"), 6);
 		layoutPanel.add(activityPanel);
 		RootLayoutPanel.get().add(layoutPanel);
-
-		// Hide the loading bar
-		//DOM.setStyleAttribute(RootPanel.get("loading").getElement(), "display", "none");
 	}
 
 }

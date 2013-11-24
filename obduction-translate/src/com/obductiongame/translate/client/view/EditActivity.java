@@ -13,14 +13,12 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.obductiongame.translate.client.ClientFactory;
 import com.obductiongame.translate.client.ErrorHandler;
-import com.obductiongame.translate.client.ErrorHandler.ErrorAsyncCallback;
 import com.obductiongame.translate.client.ErrorHandler.ErrorReceiver;
 import com.obductiongame.translate.client.jso.JsArray;
 import com.obductiongame.translate.client.jso.LanguageJso;
 import com.obductiongame.translate.client.proxy.DialogueLineProxy;
 import com.obductiongame.translate.client.proxy.DialogueLineComparator;
 import com.obductiongame.translate.client.request.DialogueLineRequest;
-import com.obductiongame.translate.client.service.DialogueServiceAsync;
 import com.obductiongame.translate.client.view.EditView.Presenter;
 import com.obductiongame.translate.shared.Language;
 
@@ -29,8 +27,6 @@ public class EditActivity extends AbstractActivity implements Presenter {
 	private static final Logger LOG = Logger.getLogger(EditActivity.class.getName());
 
 	private ClientFactory clientFactory;
-	private DialogueServiceAsync dialogueService;
-
 	private EditView view;
 
 	private final ArrayList<DialogueLineProxy> lineList = new ArrayList<DialogueLineProxy>();
@@ -40,7 +36,7 @@ public class EditActivity extends AbstractActivity implements Presenter {
 
 	public EditActivity(EditPlace place, ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
-		dialogueService = clientFactory.getDialogueService();
+		clientFactory.getDialogueService();
 	}
 
 	@Override
@@ -86,7 +82,7 @@ public class EditActivity extends AbstractActivity implements Presenter {
 		line.setLanguage(language);
 
 		// Check an identical dialogue line is not already present
-		if (lineList.contains(line)) {
+		if (lineList.contains(line)) {// FIXME
 			ErrorHandler.showError("A dialogue line with the same ID and language already exists.");
 			view.selectDialogueId();
 			return;
@@ -155,21 +151,7 @@ public class EditActivity extends AbstractActivity implements Presenter {
 		});
 	}
 
-	private void loadLanguages() {
-		/*dialogueService.getLanguages(new ErrorAsyncCallback<Language[]>(EditActivity.class.getName(), "Retreiving languages") {
-			@Override
-			public void onSuccess(Language[] result) {
-				for (Language language : result) {
-					view.addLanguage(language);
-					languageMap.put(language.getCode().toLowerCase(), language.getName());
-				}
-
-				for (int i = 0; i < lineList.size(); i++) {
-					view.setDialogueLanguage(languageMap.get(lineList.get(i).getLanguage().toLowerCase()), i);
-				}
-			}
-		});*/
-
+	private void loadLanguages() {//TODO: too slow to load via js, need to do json request after ui loaded
 		JsArray<LanguageJso> languages = LanguageJso.getLanguages();
 		for (int i = 0; i < languages.length(); i++) {
 			Language language = languages.get(i);
