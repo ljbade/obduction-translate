@@ -20,6 +20,8 @@ public class ClientFactoryImpl implements ClientFactory {
 	private final EventBus eventBus = new SimpleEventBus();
 	private final PlaceController placeController = new PlaceController(eventBus);
 
+	private final UserManager userManager = new UserManagerImpl(this);
+
 	private final MainRequestFactory requestFactory = GWT.create(MainRequestFactory.class);
 
 	private final XsrfTokenServiceAsync xsrfService = (XsrfTokenServiceAsync)GWT.create(XsrfTokenService.class);
@@ -70,6 +72,11 @@ public class ClientFactoryImpl implements ClientFactory {
 	@Override
 	public RegisteredUserRequest getRegisteredUserRequest() {
 		return requestFactory.registeredUserRequest();
+	}
+
+	@Override
+	public UserManager getUserManager() {
+		return userManager;
 	}
 
 }

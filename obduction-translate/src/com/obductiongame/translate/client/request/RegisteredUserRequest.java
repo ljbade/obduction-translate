@@ -9,7 +9,8 @@ import com.obductiongame.translate.server.locator.MainServiceLocator;
 
 @Service(value = RegisteredUserDao.class, locator = MainServiceLocator.class)
 public interface RegisteredUserRequest extends RequestContext {
-
+	
+	Request<Void> delete(RegisteredUserProxy line); // Needed to work around bug (https://code.google.com/p/google-web-toolkit/issues/detail?id=6794)
 	Request<RegisteredUserProxy> get();
 	Request<Void> put(RegisteredUserProxy user); // Needed to work around bug (https://code.google.com/p/google-web-toolkit/issues/detail?id=6794)
 

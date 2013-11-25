@@ -12,6 +12,8 @@ public interface ClientFactory {
 	EventBus getEventBus();
 	PlaceController getPlaceController();
 
+	UserManager getUserManager();
+
 	XsrfTokenServiceAsync getXsrfService();
 	MainServiceAsync getMainService();
 

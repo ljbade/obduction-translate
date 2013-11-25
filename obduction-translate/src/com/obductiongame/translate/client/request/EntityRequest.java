@@ -13,10 +13,10 @@ import com.obductiongame.translate.server.locator.MainServiceLocator;
 public interface EntityRequest<T extends EntityProxy> extends RequestContext {
 
 	Request<Long> count();
+	Request<Void> delete(T entity);
 	Request<T> get(long id);
 	Request<T> get(String name);
 	Request<List<T>> getAll();
 	Request<Void> put(T entity);
-	Request<Void> delete(T entity);
 
 }

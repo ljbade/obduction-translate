@@ -38,7 +38,7 @@ public class MainModule implements EntryPoint {
 
 	private final MainLayout layout = new MainLayoutImpl();
 
-	private final UserManager userManager = new UserManager(layout, clientFactory);
+	private final UserManager userManager = clientFactory.getUserManager();
 
 	public void onModuleLoad() {
 		// Set a custom exception handler
