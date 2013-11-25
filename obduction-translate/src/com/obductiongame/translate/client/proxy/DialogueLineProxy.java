@@ -5,7 +5,7 @@ import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.obductiongame.translate.server.entity.DialogueLine;
 import com.obductiongame.translate.server.locator.EntityLocator;
 
-@ProxyFor(value  =DialogueLine.class, locator = EntityLocator.class)
+@ProxyFor(value  = DialogueLine.class, locator = EntityLocator.class)
 public interface DialogueLineProxy extends EntityProxy {
 
 	int getId();

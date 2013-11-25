@@ -2,15 +2,26 @@ package com.obductiongame.translate.server.entity;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable(detachable = "true")
 public class DialogueLine extends Entity {
 
 	@Persistent
+	@Min(1)
 	private int id;
 	@Persistent
+	@NotNull
+	@Size(min=1)
 	private String dialogue;
 	@Persistent
+	@NotNull
+	@Size(min=2, max=3)
 	private String language;
 
 	public DialogueLine() {
@@ -97,6 +108,22 @@ public class DialogueLine extends Entity {
 		return "DialogueLine [id=" + id + ", dialogue=" + dialogue
 				+ ", language=" + language + ", key=" + key + ", version="
 				+ version + "]";
+	}
+
+	public String toName() {
+		return toName(id, language);
+	}
+
+	public Key toKey() {
+		return toKey(id, language);
+	}
+
+	public static String toName(int id, String language) {
+		return Integer.toString(id) + "," + language;
+	}
+
+	public static Key toKey(int id, String language) {
+		return KeyFactory.createKey(DialogueLine.class.getSimpleName(), toName(id, language));
 	}
 
 }

@@ -106,6 +106,7 @@ public class ErrorHandler {
 			}
 			log.log(Level.SEVERE, "Validation failure:\n" + message + "\nDetails:\n" + errorFormatted);
 
+			// TODO: more user friendly error message, must be same format and behaviour as clienside validation eg conver to int error and move focus to bad widget
 			showError(message + ": The data had invalid values.");
 		}
 

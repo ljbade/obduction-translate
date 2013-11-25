@@ -13,6 +13,7 @@
 		<property name="javax.jdo.option.RetainValues" value="true" />
 		<property name="datanucleus.cache.level2.type" value="jcache" />
 		<property name="datanucleus.cache.level2.cacheName" value="jdo" />
+		<property name="datanucleus.validation.mode" value="auto" />
 		<property name="datanucleus.appengine.autoCreateDatastoreTxns" value="true" />
 		<property name="datanucleus.appengine.datastoreEnableXGTransactions" value="true"/>
 		<property name="datanucleus.appengine.singletonPMFForName" value="true" />

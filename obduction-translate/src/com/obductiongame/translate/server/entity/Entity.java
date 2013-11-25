@@ -9,6 +9,11 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 @Inheritance(customStrategy = "complete-table")
@@ -18,8 +23,7 @@ public abstract class Entity {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
-	protected String key;
+	protected Key key;
 	@Persistent
 	protected long version;
 
@@ -27,11 +31,24 @@ public abstract class Entity {
 		super();
 	}
 
-	public String getKey() {
+	public Entity(Class<Entity> clazz, String name) {
+		this(KeyFactory.createKey(clazz.getSimpleName(), name));
+	}
+
+	public Entity(Class<Entity> clazz, long id) {
+		this(KeyFactory.createKey(clazz.getSimpleName(), id));
+	}
+
+	public Entity(Key key) {
+		super();
+		this.key = key;
+	}
+
+	public Key getKey() {
 		return key;
 	}
 
-	public void setKey(String key) {
+	public void setKey(Key key) {
 		this.key = key;
 	}
 
@@ -40,7 +57,7 @@ public abstract class Entity {
 	}
 
 	public void setVersion(long version) {
-		this.version = version;
+		throw new UnsupportedOperationException("The entity's version cannot be changed.");
 	}
 
 	@Override
