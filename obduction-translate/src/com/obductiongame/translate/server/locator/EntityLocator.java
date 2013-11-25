@@ -10,6 +10,7 @@ import com.obductiongame.translate.server.dao.DialogueLineDao;
 import com.obductiongame.translate.server.dao.RegisteredUserDao;
 import com.obductiongame.translate.server.entity.DialogueLine;
 import com.obductiongame.translate.server.entity.Entity;
+import com.obductiongame.translate.server.entity.RegisteredUser;
 
 public class EntityLocator extends Locator<Entity, String> {
 
@@ -30,7 +31,7 @@ public class EntityLocator extends Locator<Entity, String> {
 		try {
 			if (clazz == DialogueLine.class) {
 				return new DialogueLineDao().get(KeyFactory.stringToKey(id));
-			} else if (clazz == DialogueLine.class) {
+			} else if (clazz == RegisteredUser.class) {
 				return new RegisteredUserDao().get(KeyFactory.stringToKey(id));
 			} else {
 				LOG.log(Level.SEVERE, "That entity type is unknown.");

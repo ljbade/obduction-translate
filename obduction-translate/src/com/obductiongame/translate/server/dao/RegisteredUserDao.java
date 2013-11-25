@@ -1,18 +1,20 @@
 package com.obductiongame.translate.server.dao;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
-import com.google.appengine.api.datastore.Key;
 import com.obductiongame.translate.server.NotLoggedInException;
 import com.obductiongame.translate.server.ServiceException;
 import com.obductiongame.translate.server.ValidationException;
+import com.obductiongame.translate.server.WrongUserException;
 import com.obductiongame.translate.server.entity.RegisteredUser;
 
 public class RegisteredUserDao extends EntityDao<RegisteredUser> {
 
-	//private static final Logger LOG = Logger.getLogger(RegisteredUserDao.class.getName());
+	private static final Logger LOG = Logger.getLogger(RegisteredUserDao.class.getName());
 
 	public RegisteredUserDao() {
 		super(RegisteredUser.class);
@@ -29,13 +31,7 @@ public class RegisteredUserDao extends EntityDao<RegisteredUser> {
 	}
 
 	public RegisteredUser get() throws ServiceException {
-		Key usersKey;
-		try {
-			usersKey = getUsersKey();
-		} catch(NotLoggedInException e) {
-			return null;
-		}
-		return get(usersKey);
+		return get(getUsersKey());
 	}
 
 	@Override
@@ -44,9 +40,17 @@ public class RegisteredUserDao extends EntityDao<RegisteredUser> {
 	}
 
 	@Override
-	public void put(RegisteredUser user) throws ValidationException {
+	public void put(RegisteredUser user) throws ValidationException, NotLoggedInException, WrongUserException {
 		PersistenceManager pm = PMF.getPersistenceManager();
 		try {
+			if (user.getKey() == null) {
+				user.setKey(getUsersKey());
+			} else {
+				if (!user.getKey().equals(getUsersKey())) {
+					LOG.log(Level.SEVERE, "The entity's owner is not the user currently logged in with key " + user.getKey());
+					throw new WrongUserException();
+				}
+			}
 			pm.makePersistent(user);
 		} finally {
 			pm.close();

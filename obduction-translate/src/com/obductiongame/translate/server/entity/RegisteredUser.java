@@ -11,7 +11,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 public class RegisteredUser extends Entity {
 
 	@Persistent
-	@NotNull
 	private String id;
 
 	public RegisteredUser() {

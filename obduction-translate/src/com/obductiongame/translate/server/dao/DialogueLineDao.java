@@ -43,7 +43,7 @@ public class DialogueLineDao extends EntityDao<DialogueLine> {
 
 			// TODO:each line should be in a entity group with the user/creator,
 			// hard set in game lines can use a admin/cyan user
-			if (line.getKey() == null) {
+			if (line.getKey() == null) {//TODO use key
 				line.setKey(line.toKey());
 			}
 			pm.makePersistent(line);
