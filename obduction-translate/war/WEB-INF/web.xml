@@ -7,15 +7,15 @@
 
 	<!-- Servlets -->
 
-	<!-- Dialogue service -->
+	<!-- Main service -->
 	<servlet>
-		<servlet-name>dialogue</servlet-name>
-		<servlet-class>com.obductiongame.translate.server.service.DialogueServiceImpl</servlet-class>
+		<servlet-name>mainService</servlet-name>
+		<servlet-class>com.obductiongame.translate.server.service.MainServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>dialogue</servlet-name>
-		<url-pattern>/main/dialogue</url-pattern>
+		<servlet-name>mainService</servlet-name>
+		<url-pattern>/main/service</url-pattern>
 	</servlet-mapping>
 
 	<!-- Request factory -->
@@ -52,10 +52,10 @@
 	<!-- GWT logging service -->
 	<servlet>
 		<servlet-name>remoteLogging</servlet-name>
-		<servlet-class>com.google.gwt.logging.server.RemoteLoggingServiceImpl</servlet-class>
+		<servlet-class>com.obductiongame.translate.server.CustomRemoteLoggingService</servlet-class>
 
 		 <init-param>
-			<param-name>symbolMaps</param-name>
+			<param-name>symbolMapsDirectory</param-name>
 			<param-value>WEB-INF/deploy/main/symbolMaps/</param-value>
 		</init-param>
 	</servlet>
@@ -65,30 +65,56 @@
 		<url-pattern>/main/remote_logging</url-pattern>
 	</servlet-mapping>
 
+	<!--  CSP reporting service -->
+	<servlet>
+		<servlet-name>cspReport</servlet-name>
+		<servlet-class>com.obductiongame.translate.server.CspReportServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>cspReport</servlet-name>
+		<url-pattern>/cspReport</url-pattern>
+	</servlet-mapping>
+
+	<!--  Character set and header filter -->
 	<filter>
-		<filter-name>charSetFilter</filter-name>
-		<filter-class>com.obductiongame.translate.server.CharacterEncodingFilter</filter-class>
+		<filter-name>customFilter</filter-name>
+		<filter-class>com.obductiongame.translate.server.CustomFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
-		<filter-name>charSetFilter</filter-name>
-		<url-pattern>*</url-pattern>
+		<filter-name>customFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+	<!-- Security constraints -->
+	<!-- <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>everything</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint> -->
 
 	<!-- MIME types -->
 	<mime-mapping>
 		<extension>html</extension>
-		<mime-type>text/html; charset=UTF-8</mime-type>
+		<!-- <mime-type>text/html; charset=UTF-8</mime-type> -->
+		<mime-type>text/html</mime-type>
 	</mime-mapping>
 
 	<mime-mapping>
 		<extension>css</extension>
-		<mime-type>text/css; charset=UTF-8</mime-type>
+		<!-- <mime-type>text/css; charset=UTF-8</mime-type> -->
+		<mime-type>text/css</mime-type>
 	</mime-mapping>
 
 	<mime-mapping>
 		<extension>js</extension>
-		<mime-type>application/javascript; charset=UTF-8</mime-type>
+		<!-- <mime-type>application/javascript; charset=UTF-8</mime-type> -->
+		<mime-type>application/javascript</mime-type>
 	</mime-mapping>
 
 	<!-- Default page to serve -->

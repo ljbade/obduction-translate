@@ -42,6 +42,7 @@ public class ErrorHandler {
 		private String message;
 
 		public ErrorAsyncCallback(String name, String message) {
+			super();
 			log = Logger.getLogger(name);
 			this.message = message;
 		}
@@ -68,6 +69,7 @@ public class ErrorHandler {
 		private String message;
 
 		public ErrorReceiver(String name, String message) {
+			super();
 			log = Logger.getLogger(name);
 			this.message = message;
 		}

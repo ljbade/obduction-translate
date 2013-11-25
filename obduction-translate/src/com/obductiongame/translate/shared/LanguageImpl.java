@@ -3,8 +3,9 @@ package com.obductiongame.translate.shared;
 import java.io.Serializable;
 import java.util.Comparator;
 
-@SuppressWarnings("serial")
 public class LanguageImpl implements Serializable, Comparable<LanguageImpl>, Language {
+
+	private static final long serialVersionUID = 3537336738315358505L;
 
 	public static class NameComparator implements Comparator<LanguageImpl> {
 
@@ -27,9 +28,11 @@ public class LanguageImpl implements Serializable, Comparable<LanguageImpl>, Lan
 	private String name;
 	private String code;
 
-	public LanguageImpl() {
+	@SuppressWarnings("unused")
+	private LanguageImpl() {
+		super();
 	}
-	
+
 	public LanguageImpl(String code) {
 		this(code, "");
 	}
@@ -37,7 +40,7 @@ public class LanguageImpl implements Serializable, Comparable<LanguageImpl>, Lan
 	public LanguageImpl(String code, String name) {
 		super();
 		this.name = name;
-		this.code = code.toLowerCase();
+		this.code = code;
 	}
 
 	@Override
@@ -64,24 +67,29 @@ public class LanguageImpl implements Serializable, Comparable<LanguageImpl>, Lan
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((code == null) ? 0 : code.toLowerCase().hashCode());
+		result = prime * result + ((code == null) ? 0 : code.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof LanguageImpl)) {
 			return false;
+		}
 		LanguageImpl other = (LanguageImpl) obj;
 		if (code == null) {
-			if (other.code != null)
+			if (other.code != null) {
 				return false;
-		} else if (!code.equalsIgnoreCase(other.code))
+			}
+		} else if (!code.equals(other.code)) {
 			return false;
+		}
 		return true;
 	}
 

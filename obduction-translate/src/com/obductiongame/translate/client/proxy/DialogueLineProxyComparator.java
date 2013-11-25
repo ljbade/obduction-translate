@@ -2,7 +2,7 @@ package com.obductiongame.translate.client.proxy;
 
 import java.util.Comparator;
 
-public class DialogueLineComparator implements Comparator<DialogueLineProxy> {
+public class DialogueLineProxyComparator implements Comparator<DialogueLineProxy> {
 
 	@Override
 	public int compare(DialogueLineProxy o1, DialogueLineProxy o2) {

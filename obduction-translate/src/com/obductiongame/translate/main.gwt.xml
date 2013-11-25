@@ -8,12 +8,13 @@
 	<inherits name="com.google.gwt.logging.Logging" />
 	
 	<!-- Inherit the default GWT style sheet. -->
-	<inherits name="com.google.gwt.user.theme.standard.Standard" />
+	<inherits name="com.google.gwt.user.theme.chrome.Chrome" />
 	
 	<!-- Other module inherits -->
 	<inherits name="com.google.gwt.activity.Activity" />
 	<inherits name="com.google.gwt.place.Place" />
 	<inherits name="com.google.web.bindery.requestfactory.RequestFactory" />
+	<inherits name="org.vectomatic.libgwtsvg" />
 	
 	<!-- Specify the app entry point class. -->
 	<entry-point class="com.obductiongame.translate.client.MainModule" />

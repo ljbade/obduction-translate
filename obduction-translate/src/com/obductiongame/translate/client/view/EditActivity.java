@@ -17,7 +17,7 @@ import com.obductiongame.translate.client.ErrorHandler.ErrorReceiver;
 import com.obductiongame.translate.client.jso.JsArray;
 import com.obductiongame.translate.client.jso.LanguageJso;
 import com.obductiongame.translate.client.proxy.DialogueLineProxy;
-import com.obductiongame.translate.client.proxy.DialogueLineComparator;
+import com.obductiongame.translate.client.proxy.DialogueLineProxyComparator;
 import com.obductiongame.translate.client.request.DialogueLineRequest;
 import com.obductiongame.translate.client.view.EditView.Presenter;
 import com.obductiongame.translate.shared.Language;
@@ -35,8 +35,8 @@ public class EditActivity extends AbstractActivity implements Presenter {
 	private boolean editing = false;
 
 	public EditActivity(EditPlace place, ClientFactory clientFactory) {
+		super();
 		this.clientFactory = clientFactory;
-		clientFactory.getDialogueService();
 	}
 
 	@Override
@@ -81,18 +81,11 @@ public class EditActivity extends AbstractActivity implements Presenter {
 		line.setDialogue(dialogue);
 		line.setLanguage(language);
 
-		// Check an identical dialogue line is not already present
-		if (lineList.contains(line)) {// FIXME
-			ErrorHandler.showError("A dialogue line with the same ID and language already exists.");
-			view.selectDialogueId();
-			return;
-		}
-
 		// Add the dialogue line
 		req.put(line).fire(new ErrorReceiver<Void>(EditActivity.class.getName(), "Adding dialogue line") {
 			@Override
 			public void onSuccess(Void response) {
-				int index = Collections.binarySearch(lineList, line, new DialogueLineComparator());
+				int index = Collections.binarySearch(lineList, line, new DialogueLineProxyComparator());
 				index = index < 0 ? -(index + 1) : index;
 
 				lineList.add(index, line);

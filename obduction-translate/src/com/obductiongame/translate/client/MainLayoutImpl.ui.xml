@@ -1,0 +1,66 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+			 xmlns:g="urn:import:com.google.gwt.user.client.ui"
+			 xmlns:svg="urn:import:org.vectomatic.dom.svg.ui">
+
+	<ui:style>
+		.root {
+			color: black;
+			background-color: white;
+		}
+		
+		.header {
+			color: white;
+			/*color: linear-gradient(to right, BlueViolet, MediumOrchid);*/
+			/*color: MediumOrchid;*/
+			background-color: black;
+			text-align: center;
+		}
+		
+		h1.header {
+			font-size: 24pt;
+		}
+		
+		.sidebar {
+		}
+		
+		.footer {
+			text-align: center;
+		}
+	</ui:style>
+
+	<g:DockLayoutPanel styleName="{style.root}" unit="EM">
+		<g:north size="6">
+			<g:HTML styleName="{style.header}"><h1>Obduction Translate</h1></g:HTML>
+			<!-- <svg:SVGImage styleName="{style.header}">
+				<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+					<defs>
+						<linearGradient id="headerGradient" x1="0%" y1="0%" x2="100%">
+							<stop stop-color="BlueViolet" offset="0%" />
+							<stop stop-color="MediumOrchid" offset="100%" />
+						</linearGradient>
+					</defs>
+					<text x="0" y="0" font-size="24pt" font-weight="bold" fill="url(#headerGradient)" stroke="none">Obduction</text>
+				</svg>
+			</svg:SVGImage> -->
+		</g:north>
+
+		<g:south size="2">
+			<g:HTML styleName="{style.footer}">&copy; 2013 Leith Bade. All right reserved. <a href="http://obductiongame.com/">Obduction</a> is a trademark of <a href="http://cyan.com/">Cyan Inc.</a></g:HTML>
+		</g:south>
+
+		<g:west size="10">
+			<g:HTML>
+				<p>Hello, <span ui:field="userNameSpan"></span></p>
+				<ul>
+					<li><a ui:field="loginLink">Login</a></li>
+					<li><a ui:field="logoutLink">Logout</a></li>
+				</ul>
+			</g:HTML>
+		</g:west>
+
+		<g:center>
+			<g:ScrollPanel ui:field="activityPanel" />
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

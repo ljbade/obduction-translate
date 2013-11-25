@@ -8,9 +8,10 @@ import com.google.gwt.user.client.rpc.XsrfTokenServiceAsync;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.obductiongame.translate.client.request.DialogueLineRequest;
-import com.obductiongame.translate.client.request.DialogueRequestFactory;
-import com.obductiongame.translate.client.service.DialogueService;
-import com.obductiongame.translate.client.service.DialogueServiceAsync;
+import com.obductiongame.translate.client.request.MainRequestFactory;
+import com.obductiongame.translate.client.request.RegisteredUserRequest;
+import com.obductiongame.translate.client.service.MainService;
+import com.obductiongame.translate.client.service.MainServiceAsync;
 import com.obductiongame.translate.client.view.EditView;
 import com.obductiongame.translate.client.view.EditViewImpl;
 
@@ -19,14 +20,16 @@ public class ClientFactoryImpl implements ClientFactory {
 	private final EventBus eventBus = new SimpleEventBus();
 	private final PlaceController placeController = new PlaceController(eventBus);
 
-	private final DialogueRequestFactory requestFactory = GWT.create(DialogueRequestFactory.class);
+	private final MainRequestFactory requestFactory = GWT.create(MainRequestFactory.class);
 
 	private final XsrfTokenServiceAsync xsrfService = (XsrfTokenServiceAsync)GWT.create(XsrfTokenService.class);
-	private final DialogueServiceAsync dialogueService = GWT.create(DialogueService.class);
+	private final MainServiceAsync mainService = GWT.create(MainService.class);
 
 	private final EditView editView = new EditViewImpl();
 
 	public ClientFactoryImpl() {
+		super();
+
 		// Start XSRF service
 		((ServiceDefTarget)xsrfService).setServiceEntryPoint(GWT.getModuleBaseURL() + "xsrf");
 
@@ -50,8 +53,8 @@ public class ClientFactoryImpl implements ClientFactory {
 	}
 
 	@Override
-	public DialogueServiceAsync getDialogueService() {
-		return dialogueService;
+	public MainServiceAsync getMainService() {
+		return mainService;
 	}
 
 	@Override
@@ -62,6 +65,11 @@ public class ClientFactoryImpl implements ClientFactory {
 	@Override
 	public DialogueLineRequest getDialogueLineRequest() {
 		return requestFactory.dialogueLineRequest();
+	}
+
+	@Override
+	public RegisteredUserRequest getRegisteredUserRequest() {
+		return requestFactory.registeredUserRequest();
 	}
 
 }

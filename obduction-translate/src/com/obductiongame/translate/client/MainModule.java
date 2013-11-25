@@ -6,16 +6,10 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.web.bindery.event.shared.EventBus;
 import com.obductiongame.translate.client.ErrorHandler.ErrorExceptionHandler;
 import com.obductiongame.translate.client.view.EditPlace;
@@ -28,6 +22,7 @@ public class MainModule implements EntryPoint {
 	//TODO: command pattern rpc/event bus
 	//TODO: use xsrf/safehtml
 	//TODO:collate into todo file
+	// TODO: https://code.google.com/p/objectify-appengine/?
 
 	private final ClientFactory clientFactory = GWT.create(ClientFactory.class);
 
@@ -41,8 +36,9 @@ public class MainModule implements EntryPoint {
 	private final PlaceHistoryMapper historyMapper= GWT.create(MainPlaceHistoryMapper.class);
 	private final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
 
-	private final DockLayoutPanel layoutPanel = new DockLayoutPanel(Unit.EM);
-	private final SimplePanel activityPanel = new SimplePanel();
+	private final MainLayout layout = new MainLayoutImpl();
+
+	private final UserManager userManager = new UserManager(layout, clientFactory);
 
 	public void onModuleLoad() {
 		// Set a custom exception handler
@@ -58,7 +54,7 @@ public class MainModule implements EntryPoint {
 
 	private void onModuleLoad2() {
 		// Start ActivityManager for the main widget with our ActivityMapper
-		activityManager.setDisplay(activityPanel);
+		activityManager.setDisplay(layout.getActivityPanel());
 
 		// Start PlaceHistoryHandler with our PlaceHistoryMapper
 		historyHandler.register(placeController, eventBus, defaultPlace);
@@ -66,12 +62,8 @@ public class MainModule implements EntryPoint {
 		// Goes to the place represented on URL else default place
 		historyHandler.handleCurrentHistory();
 
-		// Create the layout
-		layoutPanel.addNorth(new HTML("<h1>Obduction Translate</h1><h2>Edit</h2>"), 8);//TODO:replace with ui binder
-		layoutPanel.addSouth(new Label("Footer"), 2);
-		layoutPanel.addWest(new Label("Menu"), 6);
-		layoutPanel.add(activityPanel);
-		RootLayoutPanel.get().add(layoutPanel);
+		// Check if a user is logged in
+		userManager.checkIfLoggedIn();
 	}
 
 }

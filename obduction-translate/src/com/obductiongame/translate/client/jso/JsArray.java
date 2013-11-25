@@ -5,6 +5,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class JsArray<E extends JavaScriptObject> extends JavaScriptObject {
 
 	protected JsArray() {
+		super();
 	}
 
 	public final native int length() /*-{

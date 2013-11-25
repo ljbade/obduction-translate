@@ -9,6 +9,7 @@ public class EditPlace extends Place {
 	private String token;
 
 	public EditPlace(String token) {
+		super();
 		this.token = token;
 	}
 

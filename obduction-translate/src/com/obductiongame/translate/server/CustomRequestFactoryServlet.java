@@ -31,7 +31,7 @@ public class CustomRequestFactoryServlet extends RequestFactoryServlet {
 	}
 
 	public CustomRequestFactoryServlet() {
-		super( new LoggingExceptionHandler() );
+		super(new LoggingExceptionHandler());
 	}
 
 }

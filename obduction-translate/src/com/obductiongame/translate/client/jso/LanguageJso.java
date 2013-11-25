@@ -10,6 +10,7 @@ public class LanguageJso extends JavaScriptObject implements Language {
 	}-*/;
 
 	protected LanguageJso() {
+		super();
 	}
 
 	@Override

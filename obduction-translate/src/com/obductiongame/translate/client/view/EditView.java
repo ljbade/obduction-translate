@@ -22,12 +22,14 @@ public interface EditView extends IsWidget {
 	void addLanguage(Language language);
 
 	public interface Presenter {
+
 		void goTo(Place place);
 
 		void addDialogue(String idText, String dialogue, String language);
 		void deleteDialogue(DialogueLineProxy line);
 		void editDialogue(DialogueLineProxy line);
 		void clearDialogue();
+
 	}
 
 }

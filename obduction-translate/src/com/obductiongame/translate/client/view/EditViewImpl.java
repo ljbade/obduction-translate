@@ -35,6 +35,7 @@ public class EditViewImpl extends Composite implements EditView {
 	private final Button cancelButton = new Button("Cancel");
 
 	public EditViewImpl() {
+		super();
 		initWidget(rootPanel);
 
 		// Create the table of dialogue lines

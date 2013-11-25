@@ -19,8 +19,8 @@
 		<!-- <include path="/main/*.cache.html" expiration="1d">
 			<http-header name="X-Frame-Options" value="SAMEORIGIN" />
 		</include> -->
-		<include path="/**" expiration="1d">
-			<http-header name="Strict-Transport-Security" value="max-age=31536000; includeSubDomains" />
+		<include path="/**" expiration="0d"><!-- expiration="1d">
+			<http-header name="Strict-Transport-Security" value="max-age=31536000; includeSubDomains" />-->
 			<!-- <http-header name="X-Frame-Options" value="DENY" />
 			<http-header name="X-XSS-Protection" value="1; mode=block" />
 			<http-header name="X-Content-Type-Options" value="nosniff" /> -->

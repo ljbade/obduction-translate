@@ -6,13 +6,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.icu.util.ULocale;
-import com.obductiongame.translate.server.service.DialogueServiceImpl;
+import com.obductiongame.translate.server.service.MainServiceImpl;
 import com.obductiongame.translate.shared.Language;
 import com.obductiongame.translate.shared.LanguageImpl;
 
 public class LanguageLoader {
 
-	private static final Logger LOG = Logger.getLogger(DialogueServiceImpl.class.getName());
+	private static final Logger LOG = Logger.getLogger(MainServiceImpl.class.getName());
 
 	private static LanguageImpl[] languagesArray;
 
