@@ -6,7 +6,7 @@ import com.obductiongame.translate.shared.LoginInfo;
 public interface UserManager {
 
 	public void setMainLayout(MainLayout layout);
-	public void checkIfLoggedIn();
+	public void checkIfLoggedIn(ClientFactory clientFactory);
 	public LoginInfo getLoginInfo();
 	public RegisteredUserProxy getUser();
 

@@ -20,12 +20,13 @@ public class ClientFactoryImpl implements ClientFactory {
 	private final EventBus eventBus = new SimpleEventBus();
 	private final PlaceController placeController = new PlaceController(eventBus);
 
-	private final UserManager userManager = new UserManagerImpl(this);
-
 	private final MainRequestFactory requestFactory = GWT.create(MainRequestFactory.class);
 
 	private final XsrfTokenServiceAsync xsrfService = (XsrfTokenServiceAsync)GWT.create(XsrfTokenService.class);
 	private final MainServiceAsync mainService = GWT.create(MainService.class);
+
+	// Must come after MainRequestFactory and MainServiceAsync
+	private final UserManager userManager = new UserManagerImpl();
 
 	private final EditView editView = new EditViewImpl();
 

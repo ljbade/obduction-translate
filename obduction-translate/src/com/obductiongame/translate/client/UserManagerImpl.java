@@ -10,21 +10,22 @@ import com.obductiongame.translate.shared.LoginInfo;
 
 public class UserManagerImpl implements UserManager {
 
-	private ClientFactory clientFactory;
-	private MainServiceAsync service;
+	//private ClientFactory clientFactory;
+	//private MainServiceAsync service;
 	private MainLayout layout;
 
 	private LoginInfo loginInfo;
 	private RegisteredUserProxy user;
 
-	public UserManagerImpl(ClientFactory clientFactory) {
+	public UserManagerImpl(/*ClientFactory clientFactory*/) {
 		super();
-		this.clientFactory = clientFactory;
-		service = clientFactory.getMainService();
+		//this.clientFactory = clientFactory;
+		//service = clientFactory.getMainService();
 	}
 
 	@Override
-	public void checkIfLoggedIn() {
+	public void checkIfLoggedIn(final ClientFactory clientFactory) {
+		MainServiceAsync service = clientFactory.getMainService();
 		service.getLoginInfo(GWT.getHostPageBaseURL(), new ErrorAsyncCallback<LoginInfo>(UserManagerImpl.class.getName(), "Loading login info") {
 			@Override
 			public void onSuccess(LoginInfo result) {

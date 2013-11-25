@@ -63,7 +63,8 @@ public class MainModule implements EntryPoint {
 		historyHandler.handleCurrentHistory();
 
 		// Check if a user is logged in
-		userManager.checkIfLoggedIn();
+		userManager.setMainLayout(layout);
+		userManager.checkIfLoggedIn(clientFactory);
 	}
 
 }
