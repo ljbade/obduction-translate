@@ -11,6 +11,6 @@ import com.obductiongame.translate.server.locator.MainServiceLocator;
 public interface RegisteredUserRequest extends RequestContext {
 
 	Request<RegisteredUserProxy> get();
-	Request<Void> put(RegisteredUserProxy user);
+	Request<Void> put(RegisteredUserProxy user); // Needed to work around bug (https://code.google.com/p/google-web-toolkit/issues/detail?id=6794)
 
 }

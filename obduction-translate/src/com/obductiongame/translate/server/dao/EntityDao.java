@@ -15,20 +15,19 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.obductiongame.translate.server.EntityNotFoundException;
 import com.obductiongame.translate.server.NotLoggedInException;
 import com.obductiongame.translate.server.ServiceException;
 import com.obductiongame.translate.server.entity.Entity;
 import com.obductiongame.translate.server.entity.RegisteredUser;
 
-public abstract class Dao<T extends Entity> {
+public abstract class EntityDao<T extends Entity> {
 
-	private static final Logger LOG = Logger.getLogger(Dao.class.getName());
+	private static final Logger LOG = Logger.getLogger(EntityDao.class.getName());
 	protected static final PersistenceManagerFactory PMF = JDOHelper.getPersistenceManagerFactory("transactions-optional");
 
 	protected Class<T> clazz;
 
-	protected Dao(Class<T> clazz) {
+	protected EntityDao(Class<T> clazz) {
 		this.clazz = clazz;
 	}
 
@@ -57,8 +56,8 @@ public abstract class Dao<T extends Entity> {
 		try {
 			return pm.getObjectById(clazz, key);
 		} catch(JDOObjectNotFoundException e) {
-			LOG.log(Level.SEVERE, "The entity was not found using key " + key);
-			throw new EntityNotFoundException();
+			LOG.log(Level.INFO, "The entity was not found (possibly just deleted) using key " + key);
+			return null;
 		} finally {
 			pm.close();
 		}

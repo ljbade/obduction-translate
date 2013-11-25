@@ -11,9 +11,9 @@ import com.obductiongame.translate.server.ServiceException;
 import com.obductiongame.translate.server.WrongUserException;
 import com.obductiongame.translate.server.entity.UserRequiredEntity;
 
-public abstract class UserRequiredDao<T extends UserRequiredEntity> extends Dao<T> {
+public abstract class UserRequiredDao<T extends UserRequiredEntity> extends EntityDao<T> {
 
-	private static final Logger LOG = Logger.getLogger(Dao.class.getName());
+	private static final Logger LOG = Logger.getLogger(EntityDao.class.getName());
 
 	protected UserRequiredDao(Class<T> clazz) {
 		super(clazz);

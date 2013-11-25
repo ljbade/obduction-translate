@@ -6,7 +6,7 @@ import com.obductiongame.translate.server.ServiceException;
 import com.obductiongame.translate.server.ValidationException;
 import com.obductiongame.translate.server.entity.RegisteredUser;
 
-public class RegisteredUserDao extends Dao<RegisteredUser> {
+public class RegisteredUserDao extends EntityDao<RegisteredUser> {
 
 	//private static final Logger LOG = Logger.getLogger(RegisteredUserDao.class.getName());
 

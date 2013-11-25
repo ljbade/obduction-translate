@@ -10,7 +10,7 @@ public class LoginInfo implements Serializable {
 	private boolean admin;
 	private String loginUrl;
 	private String logoutUrl;
-	private String name;
+	private String name; // TODO: some of these could be moved to registered user via dao emulating the db?
 	private String email;
 
 	@SuppressWarnings("unused")

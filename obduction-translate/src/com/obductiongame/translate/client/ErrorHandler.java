@@ -56,7 +56,7 @@ public class ErrorHandler {
 				} else {
 					showError(message + ": A server error occured during the operation.");
 				}
-			} else {
+			} else {// TODO: handle the dead entity exception
 				showError(message + ": An unexpected error occured during the operation.");
 			}
 		}

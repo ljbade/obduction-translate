@@ -102,7 +102,7 @@ public class EditActivity extends AbstractActivity implements Presenter {
 	public void deleteDialogue(DialogueLineProxy line) {
 		final int index = lineList.indexOf(line);
 		if (index == -1) {
-			LOG.log(Level.WARNING, "Dialogue line " + line.toString() + " not found");
+			LOG.log(Level.WARNING, "Dialogue line " + line + " not found");
 			return;
 		}
 		DialogueLineRequest req = clientFactory.getDialogueLineRequest();

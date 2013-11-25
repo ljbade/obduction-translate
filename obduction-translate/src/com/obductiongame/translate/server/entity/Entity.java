@@ -9,9 +9,6 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -50,6 +47,14 @@ public abstract class Entity {
 
 	public void setKey(Key key) {
 		this.key = key;
+	}
+
+	public String getEncodedKey() {
+		return KeyFactory.keyToString(key);
+	}
+
+	public void setEncodedKey(String encodedKey) {
+		key = KeyFactory.stringToKey(encodedKey);
 	}
 
 	public long getVersion() {

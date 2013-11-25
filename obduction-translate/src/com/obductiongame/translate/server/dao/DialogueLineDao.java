@@ -7,10 +7,11 @@ import java.util.logging.Logger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.obductiongame.translate.server.ServiceException;
 import com.obductiongame.translate.server.ValidationException;
 import com.obductiongame.translate.server.entity.DialogueLine;
 
-public class DialogueLineDao extends Dao<DialogueLine> {
+public class DialogueLineDao extends EntityDao<DialogueLine> {
 
 	private static final Logger LOG = Logger.getLogger(DialogueLineDao.class.getName());
 // TODO: use id + lang as key to find entity faster
@@ -49,6 +50,12 @@ public class DialogueLineDao extends Dao<DialogueLine> {
 		} finally {
 			pm.close();
 		}
+	}
+
+	// Needed to work around bug (https://code.google.com/p/google-web-toolkit/issues/detail?id=6794)
+	@Override
+	public void delete(DialogueLine entity) throws ServiceException {
+		super.delete(entity);
 	}
 
 }

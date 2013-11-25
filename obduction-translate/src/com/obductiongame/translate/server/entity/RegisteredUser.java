@@ -61,6 +61,12 @@ public class RegisteredUser extends Entity {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "RegisteredUser [id=" + id + ", key=" + key
+				+ ", version=" + version + "]";
+	}
+
 	public String toName() {
 		return toName(id);
 	}

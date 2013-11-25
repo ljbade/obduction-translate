@@ -3,7 +3,7 @@ package com.obductiongame.translate.server.locator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.web.bindery.requestfactory.shared.Locator;
 import com.obductiongame.translate.server.ServiceException;
 import com.obductiongame.translate.server.dao.DialogueLineDao;
@@ -11,7 +11,7 @@ import com.obductiongame.translate.server.dao.RegisteredUserDao;
 import com.obductiongame.translate.server.entity.DialogueLine;
 import com.obductiongame.translate.server.entity.Entity;
 
-public class EntityLocator extends Locator<Entity, Key> {
+public class EntityLocator extends Locator<Entity, String> {
 
 	private static final Logger LOG = Logger.getLogger(EntityLocator.class.getName());
 
@@ -26,12 +26,12 @@ public class EntityLocator extends Locator<Entity, Key> {
 	}
 
 	@Override
-	public Entity find(Class<? extends Entity> clazz, Key id) {
+	public Entity find(Class<? extends Entity> clazz, String id) {
 		try {
 			if (clazz == DialogueLine.class) {
-				return new DialogueLineDao().get(id);
+				return new DialogueLineDao().get(KeyFactory.stringToKey(id));
 			} else if (clazz == DialogueLine.class) {
-				return new RegisteredUserDao().get(id);
+				return new RegisteredUserDao().get(KeyFactory.stringToKey(id));
 			} else {
 				LOG.log(Level.SEVERE, "That entity type is unknown.");
 				throw new IllegalArgumentException("That entity type is unknown.");
@@ -49,13 +49,13 @@ public class EntityLocator extends Locator<Entity, Key> {
 	}
 
 	@Override
-	public Key getId(Entity domainObject) {
-		return domainObject.getKey();
+	public String getId(Entity domainObject) {
+		return KeyFactory.keyToString(domainObject.getKey());
 	}
 
 	@Override
-	public Class<Key> getIdType() {
-		return Key.class;
+	public Class<String> getIdType() {
+		return String.class;
 	}
 
 	@Override

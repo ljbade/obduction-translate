@@ -119,7 +119,7 @@ public class DialogueLine extends Entity {
 	}
 
 	public static String toName(int id, String language) {
-		return Integer.toString(id) + "," + language;
+		return id + "," + language;
 	}
 
 	public static Key toKey(int id, String language) {
