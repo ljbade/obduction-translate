@@ -12,6 +12,7 @@ public interface EditView extends IsWidget {
 
 	void addDialogue(DialogueLineProxy line);
 	void insertDialogue(DialogueLineProxy line, int index);
+	void replaceDialogue(DialogueLineProxy line, int index);
 	void deleteDialogue(int index);
 	void editDialogue(DialogueLineProxy line);
 	void setDialogueLanguage(String language, int index);

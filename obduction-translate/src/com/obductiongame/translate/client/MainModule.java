@@ -53,6 +53,10 @@ public class MainModule implements EntryPoint {
 	}
 
 	private void onModuleLoad2() {
+		// Check if a user is logged in
+		userManager.setMainLayout(layout);
+		userManager.checkIfLoggedIn(clientFactory);
+
 		// Start ActivityManager for the main widget with our ActivityMapper
 		activityManager.setDisplay(layout.getActivityPanel());
 
@@ -61,10 +65,6 @@ public class MainModule implements EntryPoint {
 
 		// Goes to the place represented on URL else default place
 		historyHandler.handleCurrentHistory();
-
-		// Check if a user is logged in
-		userManager.setMainLayout(layout);
-		userManager.checkIfLoggedIn(clientFactory);
 	}
 
 }

@@ -12,16 +12,17 @@ import com.google.appengine.api.datastore.KeyFactory;
 @PersistenceCapable(detachable = "true")
 public class DialogueLine extends UserRequiredEntity {
 
+	// FIXME
 	@Persistent
-	//@Min(1)
+	@Min(1)
 	private int id;
 	@Persistent
-	//@NotNull
-	//@Size(min=1)
+	@NotNull
+	@Size(min=1)
 	private String dialogue;
 	@Persistent
-	//@NotNull
-	//@Size(min=2, max=3)
+	@NotNull
+	@Size(min=2, max=3)
 	private String language;
 
 	public DialogueLine() {

@@ -9,6 +9,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -70,7 +71,7 @@ public abstract class Entity {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((key == null) ? 0 : key.hashCode());
-		result = prime * result + (int) (version ^ (version >>> 32));
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
 
@@ -93,7 +94,11 @@ public abstract class Entity {
 		} else if (!key.equals(other.key)) {
 			return false;
 		}
-		if (version != other.version) {
+		if (version == null) {
+			if (other.version != null) {
+				return false;
+			}
+		} else if (!version.equals(other.version)) {
 			return false;
 		}
 		return true;

@@ -43,8 +43,14 @@ public class EditActivity extends AbstractActivity implements Presenter {
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
 		view = clientFactory.getEditView();
 		view.setPresenter(this);
-		view.reset();
 		panel.setWidget(view.asWidget());
+		view.reset();
+
+		// TODO: need to use event bus to delay everything (maybe in main module)? till we get the login response back
+		/*if (!clientFactory.getUserManager().getLoginInfo().isLoggedIn()) {
+			panel.setWidget(new Label("Please login."));
+			return;
+		}*/
 
 		// Load the languages
 		loadLanguages();
@@ -86,10 +92,15 @@ public class EditActivity extends AbstractActivity implements Presenter {
 			@Override
 			public void onSuccess(Void response) {
 				int index = Collections.binarySearch(lineList, line, new DialogueLineProxyComparator());
-				index = index < 0 ? -(index + 1) : index;
+				if (index < 0) {
+					index = -(index + 1);
 
-				lineList.add(index, line);
-				view.insertDialogue(line, index);
+					lineList.add(index, line);
+					view.insertDialogue(line, index);
+				} else {
+					lineList.set(index, line);
+					view.replaceDialogue(line, index);
+				}
 				view.setDialogueLanguage(languageMap.get(line.getLanguage().toLowerCase()), index);
 
 				// Clear the text boxes and reset focus
@@ -118,7 +129,6 @@ public class EditActivity extends AbstractActivity implements Presenter {
 	@Override
 	public void editDialogue(DialogueLineProxy line) {
 		editing = true;
-		deleteDialogue(line);
 		view.editDialogue(line);
 	}
 

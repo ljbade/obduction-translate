@@ -112,7 +112,14 @@ public class EditViewImpl extends Composite implements EditView {
 	public void insertDialogue(DialogueLineProxy line, int index) {
 		createTableRow(line, index);
 	}
-//
+
+	@Override
+	public void replaceDialogue(DialogueLineProxy line, int index) {
+		dialogueFlexTable.setText(index + 1, 0, Integer.toString(line.getId()));
+		dialogueFlexTable.setText(index + 1, 1, line.getDialogue());
+		dialogueFlexTable.setText(index + 1, 2, line.getLanguage());
+	}
+
 	private void createTableRow(final DialogueLineProxy line, int index) {
 		dialogueFlexTable.insertRow(index + 1);
 		dialogueFlexTable.setText(index + 1, 0, Integer.toString(line.getId()));
@@ -120,7 +127,6 @@ public class EditViewImpl extends Composite implements EditView {
 		dialogueFlexTable.setText(index + 1, 2, line.getLanguage());
 
 		// Add the edit button
-		// TODO: make work in place and not delete before add
 		Button editDialogueButton = new Button("Edit");
 		editDialogueButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
