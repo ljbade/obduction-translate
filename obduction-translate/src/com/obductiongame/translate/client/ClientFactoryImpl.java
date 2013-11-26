@@ -37,7 +37,7 @@ public class ClientFactoryImpl implements ClientFactory {
 		//((ServiceDefTarget)xsrfService).setServiceEntryPoint(GWT.getModuleBaseURL() + "xsrf");
 
 		// Start RequestFactory
-		//requestFactory.initialize(eventBus, new CustomRequestTransport());
+		requestFactory.initialize(eventBus, new CustomRequestTransport());
 	}
 
 	@Override
