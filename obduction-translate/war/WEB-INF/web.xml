@@ -34,7 +34,7 @@
 	</servlet-mapping>
 
 	<!-- XSRF protection service -->
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>xsrf</servlet-name>
 		<servlet-class>com.google.gwt.user.server.rpc.XsrfTokenServiceServlet</servlet-class>
 	</servlet>
@@ -47,7 +47,7 @@
 	<context-param>
 		<param-name>gwt.xsrf.session_cookie_name</param-name>
 		<param-value>JSESSIONID</param-value>
-	</context-param>
+	</context-param> -->
 
 	<!-- GWT logging service -->
 	<servlet>
@@ -66,7 +66,7 @@
 	</servlet-mapping>
 
 	<!--  CSP reporting service -->
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>cspReport</servlet-name>
 		<servlet-class>com.obductiongame.translate.server.CspReportServlet</servlet-class>
 	</servlet>
@@ -74,7 +74,7 @@
 	<servlet-mapping>
 		<servlet-name>cspReport</servlet-name>
 		<url-pattern>/cspReport</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 	<!--  Character set and header filter -->
 	<filter>
@@ -102,18 +102,21 @@
 	<mime-mapping>
 		<extension>html</extension>
 		<!-- <mime-type>text/html; charset=UTF-8</mime-type> -->
-		<mime-type>text/html</mime-type>
+		<!-- <mime-type>text/html</mime-type> -->
+		<mime-type>text/html; charset=UTF-8</mime-type>
 	</mime-mapping>
 
 	<mime-mapping>
 		<extension>css</extension>
 		<!-- <mime-type>text/css; charset=UTF-8</mime-type> -->
+		<!-- <mime-type>text/css</mime-type> -->
 		<mime-type>text/css</mime-type>
 	</mime-mapping>
 
 	<mime-mapping>
 		<extension>js</extension>
 		<!-- <mime-type>application/javascript; charset=UTF-8</mime-type> -->
+		<!--  <mime-type>application/javascript</mime-type> -->
 		<mime-type>application/javascript</mime-type>
 	</mime-mapping>
 

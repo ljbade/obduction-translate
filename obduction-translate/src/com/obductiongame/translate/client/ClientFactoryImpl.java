@@ -2,9 +2,9 @@ package com.obductiongame.translate.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.rpc.XsrfTokenService;
-import com.google.gwt.user.client.rpc.XsrfTokenServiceAsync;
+//import com.google.gwt.user.client.rpc.ServiceDefTarget;
+//import com.google.gwt.user.client.rpc.XsrfTokenService;
+//import com.google.gwt.user.client.rpc.XsrfTokenServiceAsync;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.obductiongame.translate.client.request.DialogueLineRequest;
@@ -22,7 +22,7 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	private final MainRequestFactory requestFactory = GWT.create(MainRequestFactory.class);
 
-	private final XsrfTokenServiceAsync xsrfService = (XsrfTokenServiceAsync)GWT.create(XsrfTokenService.class);
+	//private final XsrfTokenServiceAsync xsrfService = (XsrfTokenServiceAsync)GWT.create(XsrfTokenService.class);
 	private final MainServiceAsync mainService = GWT.create(MainService.class);
 
 	// Must come after MainRequestFactory and MainServiceAsync
@@ -34,10 +34,10 @@ public class ClientFactoryImpl implements ClientFactory {
 		super();
 
 		// Start XSRF service
-		((ServiceDefTarget)xsrfService).setServiceEntryPoint(GWT.getModuleBaseURL() + "xsrf");
+		//((ServiceDefTarget)xsrfService).setServiceEntryPoint(GWT.getModuleBaseURL() + "xsrf");
 
 		// Start RequestFactory
-		requestFactory.initialize(eventBus, new CustomRequestTransport());
+		//requestFactory.initialize(eventBus, new CustomRequestTransport());
 	}
 
 	@Override
@@ -50,10 +50,10 @@ public class ClientFactoryImpl implements ClientFactory {
 		return placeController;
 	}
 
-	@Override
+	/*@Override
 	public XsrfTokenServiceAsync getXsrfService() {
 		return xsrfService;
-	}
+	}*/
 
 	@Override
 	public MainServiceAsync getMainService() {

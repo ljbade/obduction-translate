@@ -1,7 +1,7 @@
 package com.obductiongame.translate.client;
 
 import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.user.client.rpc.XsrfTokenServiceAsync;
+//import com.google.gwt.user.client.rpc.XsrfTokenServiceAsync;
 import com.google.web.bindery.event.shared.EventBus;
 import com.obductiongame.translate.client.request.DialogueLineRequest;
 import com.obductiongame.translate.client.request.RegisteredUserRequest;
@@ -14,7 +14,7 @@ public interface ClientFactory {
 
 	UserManager getUserManager();
 
-	XsrfTokenServiceAsync getXsrfService();
+	//XsrfTokenServiceAsync getXsrfService();
 	MainServiceAsync getMainService();
 
 	DialogueLineRequest getDialogueLineRequest();
