@@ -51,6 +51,7 @@ public class RegisteredUserDao extends EntityDao<RegisteredUser> {
 					throw new WrongUserException();
 				}
 			}
+			user.setId(getUsersId());
 			pm.makePersistent(user);
 		} finally {
 			pm.close();
