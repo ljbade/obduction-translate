@@ -3,14 +3,16 @@ package com.obductiongame.translate.server.service;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gwt.user.server.rpc.XsrfProtectedServiceServlet;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+//import com.google.gwt.user.server.rpc.XsrfProtectedServiceServlet;
 import com.obductiongame.translate.client.service.MainService;
 import com.obductiongame.translate.server.LanguageLoader;
 import com.obductiongame.translate.shared.Language;
 import com.obductiongame.translate.shared.LoginInfo;
 
 @SuppressWarnings("serial")
-public class MainServiceImpl extends XsrfProtectedServiceServlet implements
+//public class MainServiceImpl extends XsrfProtectedServiceServlet implements
+public class MainServiceImpl extends RemoteServiceServlet implements
 		MainService {
 
 	@Override
