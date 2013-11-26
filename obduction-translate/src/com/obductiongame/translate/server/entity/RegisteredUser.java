@@ -2,8 +2,6 @@ package com.obductiongame.translate.server.entity;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.validation.constraints.NotNull;
-
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -18,7 +16,7 @@ public class RegisteredUser extends Entity {
 	}
 
 	public RegisteredUser(String id) {
-		super(KeyFactory.createKey(RegisteredUser.class.getSimpleName(), toName(id)));
+		super(toKey(id));
 		this.id = id;
 	}
 
@@ -27,7 +25,7 @@ public class RegisteredUser extends Entity {
 	}
 
 	public void setId(String id) {
-		throw new UnsupportedOperationException("The user's id cannot be changed.");
+		this.id = id;
 	}
 
 	@Override

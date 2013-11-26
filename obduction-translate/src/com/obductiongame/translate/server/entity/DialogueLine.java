@@ -10,26 +10,26 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable(detachable = "true")
-public class DialogueLine extends Entity {
+public class DialogueLine extends UserRequiredEntity {
 
 	@Persistent
-	@Min(1)
+	//@Min(1)
 	private int id;
 	@Persistent
-	@NotNull
-	@Size(min=1)
+	//@NotNull
+	//@Size(min=1)
 	private String dialogue;
 	@Persistent
-	@NotNull
-	@Size(min=2, max=3)
+	//@NotNull
+	//@Size(min=2, max=3)
 	private String language;
 
 	public DialogueLine() {
 		super();
 	}
 
-	public DialogueLine(int id, String dialogue, String language) {
-		super();
+	public DialogueLine(Key userKey, int id, String dialogue, String language) {
+		super(DialogueLine.class, toName(id, language), userKey);
 		this.id = id;
 		this.dialogue = dialogue;
 		this.language = language;

@@ -7,7 +7,7 @@ import com.obductiongame.translate.server.locator.EntityLocator;
 @ProxyFor(value = UserRequiredEntity.class, locator = EntityLocator.class)
 public interface UserRequiredProxy extends EntityProxy {
 
-	RegisteredUserProxy getUser();
-	void setUser(RegisteredUserProxy user);
+	String getEncodedUserKey();
+	void setEncodedUserKey(String encodedUserKey);
 
 }

@@ -1,48 +1,59 @@
 package com.obductiongame.translate.server.entity;
 
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.validation.constraints.NotNull;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
+@PersistenceCapable(detachable = "true")
 public abstract class UserRequiredEntity extends Entity {
-//TODO add bean validation to all entities and proxies
+
 	@Persistent
-	@NotNull
-	private RegisteredUser user;
+	@Extension(vendorName = "datanucleus", key = "gae.parent-pk", value = "true") 
+	private Key userKey;
 
 	public UserRequiredEntity() {
 		super();
 	}
 
-	public UserRequiredEntity(Class<Entity> clazz, String name, RegisteredUser user) {
+	public UserRequiredEntity(Class<? extends UserRequiredEntity> clazz, String name, Key userKey) {
 		super(clazz, name);
-		this.user = user;
+		this.userKey = userKey;
 	}
 
-	public UserRequiredEntity(Class<Entity> clazz, long id, RegisteredUser user) {
+	public UserRequiredEntity(Class<? extends UserRequiredEntity> clazz, long id, Key userKey) {
 		super(clazz, id);
-		this.user = user;
+		this.userKey = userKey;
 	}
 
-	public UserRequiredEntity(Key key, RegisteredUser user) {
+	public UserRequiredEntity(Key key, Key userKey) {
 		super(key);
-		this.user = user;
+		this.userKey = userKey;
 	}
 
-	public RegisteredUser getUser() {
-		return user;
+	public Key getUserKey() {
+		return userKey;
 	}
 
-	public void setUser(RegisteredUser user) {
-		throw new UnsupportedOperationException("The entity's user cannot be changed.");
+	public void setUserKey(Key userKey) {
+		this.userKey = userKey;
+	}
+
+	public String getEncodedUserKey() {
+		return KeyFactory.keyToString(userKey);
+	}
+
+	public void setEncodedUserKey(String encodedUserKey) {
+		key = KeyFactory.stringToKey(encodedUserKey);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((userKey == null) ? 0 : userKey.hashCode());
 		return result;
 	}
 
@@ -58,11 +69,11 @@ public abstract class UserRequiredEntity extends Entity {
 			return false;
 		}
 		UserRequiredEntity other = (UserRequiredEntity) obj;
-		if (user == null) {
-			if (other.user != null) {
+		if (userKey == null) {
+			if (other.userKey != null) {
 				return false;
 			}
-		} else if (!user.equals(other.user)) {
+		} else if (!userKey.equals(other.userKey)) {
 			return false;
 		}
 		return true;
@@ -70,7 +81,7 @@ public abstract class UserRequiredEntity extends Entity {
 
 	@Override
 	public String toString() {
-		return "UserRequiredEntity [user=" + user + ", key=" + key
+		return "UserRequiredEntity [userKey=" + userKey + ", key=" + key
 				+ ", version=" + version + "]";
 	}
 

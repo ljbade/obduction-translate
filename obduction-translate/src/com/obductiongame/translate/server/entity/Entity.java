@@ -22,17 +22,17 @@ public abstract class Entity {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	protected Key key;
 	@Persistent
-	protected long version;
+	protected Long version;
 
 	public Entity() {
 		super();
 	}
 
-	public Entity(Class<Entity> clazz, String name) {
+	public Entity(Class<? extends Entity> clazz, String name) {
 		this(KeyFactory.createKey(clazz.getSimpleName(), name));
 	}
 
-	public Entity(Class<Entity> clazz, long id) {
+	public Entity(Class<? extends Entity> clazz, long id) {
 		this(KeyFactory.createKey(clazz.getSimpleName(), id));
 	}
 
@@ -57,12 +57,12 @@ public abstract class Entity {
 		key = KeyFactory.stringToKey(encodedKey);
 	}
 
-	public long getVersion() {
+	public Long getVersion() {
 		return version;
 	}
 
-	public void setVersion(long version) {
-		throw new UnsupportedOperationException("The entity's version cannot be changed.");
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 
 	@Override

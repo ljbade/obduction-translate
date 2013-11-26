@@ -27,10 +27,7 @@ public class DialogueLineDao extends UserRequiredDao<DialogueLine> {
 		PersistenceManager pm = PMF.getPersistenceManager();
 		try {//TODO handle overwriting in the UI
 			// TODO: add key name/id as entity parameters, make it easier to set name? both here and for user + line entities
-			requireUserAsOwner(line);
-			if (line.getKey() == null) { // TODO: is there a better way to set name and not parent?
-				line.setKey(getUsersKey().getChild(DialogueLine.class.getSimpleName(), line.toName()));
-			}
+			requireOrSetUserAsParent(line, DialogueLine.class, line.toName());
 			pm.makePersistent(line);
 		} finally {
 			pm.close();

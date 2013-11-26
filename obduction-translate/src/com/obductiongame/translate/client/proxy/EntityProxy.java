@@ -9,8 +9,7 @@ public interface EntityProxy extends com.google.web.bindery.requestfactory.share
 
 	String getEncodedKey();
 	void setEncodedKey(String encodedKey);
-	long getVersion();
-	void setVersion(long version);
+	Long getVersion();
+	void setVersion(Long version);
 
-	//TODO: registered user proxy with user
 }

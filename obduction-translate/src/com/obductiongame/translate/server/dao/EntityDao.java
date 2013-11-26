@@ -67,7 +67,6 @@ public abstract class EntityDao<T extends Entity> {
 		PersistenceManager pm = PMF.getPersistenceManager();
 		try {
 			Query q = pm.newQuery(clazz);
-
 			@SuppressWarnings("unchecked")
 			List<T> entities = (List<T>) q.execute();
 			return entities;
@@ -97,16 +96,20 @@ public abstract class EntityDao<T extends Entity> {
 		}
 	}
 
-	protected Key getUsersKey() throws NotLoggedInException {
+	protected String getUsersId() throws NotLoggedInException {
 		UserService userService = UserServiceFactory.getUserService();
 
 		if (userService.isUserLoggedIn()) {
 			User user = userService.getCurrentUser();
-			return KeyFactory.createKey(RegisteredUser.class.getSimpleName(), user.getUserId());
+			return user.getUserId();
 		} else {
 			LOG.log(Level.SEVERE, "There is no user currently logged in.");
 			throw new NotLoggedInException();
 		}
+	}
+
+	protected Key getUsersKey() throws NotLoggedInException {
+		return KeyFactory.createKey(RegisteredUser.class.getSimpleName(), getUsersId());
 	}
 
 }
