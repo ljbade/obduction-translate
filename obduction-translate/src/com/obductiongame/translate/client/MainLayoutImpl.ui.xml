@@ -46,7 +46,7 @@
 		</g:north>
 
 		<g:south size="2">
-			<g:HTML styleName="{style.footer}">&copy; 2013 Leith Bade. All right reserved. <a href="http://obductiongame.com/">Obduction</a> is a trademark of <a href="http://cyan.com/">Cyan Inc.</a></g:HTML>
+			<g:HTML styleName="{style.footer}">&copy; 2013 Leith Bade. All rights reserved. <a href="http://obductiongame.com/">Obduction</a> is a trademark of <a href="http://cyan.com/">Cyan Inc.</a></g:HTML>
 		</g:south>
 
 		<g:west size="10">
