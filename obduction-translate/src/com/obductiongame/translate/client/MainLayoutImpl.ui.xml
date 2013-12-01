@@ -31,7 +31,7 @@
 
 	<g:DockLayoutPanel styleName="{style.root}" unit="EM">
 		<g:north size="6">
-			<g:HTML styleName="{style.header}"><h1>Obduction Translate</h1></g:HTML>
+			<g:HTML styleName="{style.header}"><h1>Obduction Translations</h1></g:HTML>
 			<!-- <svg:SVGImage styleName="{style.header}">
 				<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
 					<defs>
