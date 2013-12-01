@@ -16,7 +16,7 @@ public class MainLayoutImpl implements MainLayout {
 	protected interface LayoutViewImplUiBinder extends UiBinder<DockLayoutPanel, MainLayoutImpl> {
 	}
 
-	private Presenter presenter;
+	//private Presenter presenter;
 
 	@UiField
 	protected ScrollPanel activityPanel;
@@ -35,7 +35,7 @@ public class MainLayoutImpl implements MainLayout {
 
 	@Override
 	public void setPresenter(Presenter presenter) {
-		this.presenter = presenter;
+		//this.presenter = presenter;
 	}
 
 	@Override

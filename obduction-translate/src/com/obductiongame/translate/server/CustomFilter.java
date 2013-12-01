@@ -71,10 +71,10 @@ public class CustomFilter implements javax.servlet.Filter {
 				}
 				WebRequest webRequest = new WebRequest(new URL(originalRequest.toString()));
 
-				WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
-				webClient.setJavaScriptEnabled(true);
-				webClient.setThrowExceptionOnScriptError(false);
-				webClient.setRedirectEnabled(false);
+				WebClient webClient = new WebClient(BrowserVersion.CHROME);
+				webClient.getOptions().setJavaScriptEnabled(true);
+				webClient.getOptions().setThrowExceptionOnScriptError(false);
+				webClient.getOptions().setRedirectEnabled(false);
 				webClient.setAjaxController(new SyncAllAjaxController());
 				webClient.setCssErrorHandler(new SilentCssErrorHandler());
 
