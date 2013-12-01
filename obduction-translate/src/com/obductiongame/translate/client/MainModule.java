@@ -34,7 +34,7 @@ public class MainModule implements EntryPoint {
 	private final ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
 
 	private final PlaceHistoryMapper historyMapper= GWT.create(MainPlaceHistoryMapper.class);
-	private final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
+	private final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(new CustomPlaceHistoryMapper(historyMapper));
 
 	private final MainLayout layout = new MainLayoutImpl();
 
