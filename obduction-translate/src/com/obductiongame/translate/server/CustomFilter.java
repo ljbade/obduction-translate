@@ -112,8 +112,9 @@ public class CustomFilter implements javax.servlet.Filter {
 					webClient.getJavaScriptEngine().shutdownJavaScriptExecutor();
 				}
 
+				page.getDocumentElement().setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
 				String staticSnapshotHtml = page.asXml();
-				response.setContentType("text/html");
+				response.setContentType("application/xhtml+xml");
 				PrintWriter out = response.getWriter();
 				out.println(staticSnapshotHtml);
 
