@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: http://obduction-translate.appspot.com/sitemap.xml
