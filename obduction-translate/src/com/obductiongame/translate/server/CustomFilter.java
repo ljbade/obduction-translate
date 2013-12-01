@@ -123,12 +123,7 @@ public class CustomFilter implements javax.servlet.Filter {
 				out.close();
 			} else {
 				if (response instanceof HttpServletResponse) {
-					/*HttpServletResponse httpResponse = (HttpServletResponse)response;
-					httpResponse.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
-					httpResponse.setHeader("X-Frame-Options", "DENY");
-					httpResponse.setHeader("X-XSS-Protection", "1; mode=block");
-					httpResponse.setHeader("X-Content-Type-Options", "nosniff");*/
-					/*httpResponse.setHeader("Content-Security-Policy", "sandbox; default-src 'none'; report-uri /cspReport");*/
+					//HttpServletResponse httpResponse = (HttpServletResponse)response;
 				}
 				filterChain.doFilter(request, response);
 			}

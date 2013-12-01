@@ -6,29 +6,10 @@
 
 	<!-- Configure serving/caching of GWT files -->
 	<static-files>
-		<!-- <include path="/" expiration="30d"> -->
-			<!-- <http-header name="X-Frame-Options" value="SAMEORIGIN" /> -->
-			<!-- <http-header name="Content-Security-Policy" value="sandbox allow-scripts allow-same-origin; default-src 'none'; script-src https://*obduction-translate.appspot.com:443 'unsafe-inline' 'unsafe-eval'; style-src https://*obduction-translate.appspot.com:443 'unsafe-inline'; connect-src https://*obduction-translate.appspot.com:443; img-src https://*obduction-translate.appspot.com:443; frame-src https://*obduction-translate.appspot.com:443; report-uri /cspReport" />
-			-->
-		<!-- </include> -->
-		<!-- <include path="/index.html" expiration="30d"> -->
-			<!-- <http-header name="X-Frame-Options" value="SAMEORIGIN" /> -->
-			<!-- <http-header name="Content-Security-Policy" value="sandbox allow-scripts allow-same-origin; default-src 'none'; script-src https://*obduction-translate.appspot.com:443 'unsafe-inline' 'unsafe-eval'; style-src https://*obduction-translate.appspot.com:443 'unsafe-inline'; connect-src https://*obduction-translate.appspot.com:443; img-src 'self'; frame-src https://*obduction-translate.appspot.com:443; report-uri /cspReport" />
-			TODO: revisit when we can use meta tags, app engine seems to have a limit to the string size here. -->
-		<!-- </include> -->
-		<!-- <include path="/main/*.cache.html" expiration="1d">
-			<http-header name="X-Frame-Options" value="SAMEORIGIN" />
-		</include> -->
-		<include path="/**" expiration="30d"><!-- 
-			<http-header name="Strict-Transport-Security" value="max-age=31536000; includeSubDomains" />-->
-			<!-- <http-header name="X-Frame-Options" value="DENY" />
-			<http-header name="X-XSS-Protection" value="1; mode=block" />
-			<http-header name="X-Content-Type-Options" value="nosniff" /> -->
-			<!-- <http-header name="Content-Security-Policy" value="sandbox; default-src 'none'; report-uri /cspReport" /> -->
-		</include>
-		<include path="/**.nocache.*" expiration="0s" />
-		<include path="/**.cache.*" expiration="365d" />
-		<exclude path="/**.gwt.rpc" />
+		<include path="**" />
+		<include path="**.nocache.*" expiration="0s" />
+		<include path="**.cache.*" expiration="365d" />
+		<exclude path="**.gwt.rpc" />
 	</static-files>
 
 	<!-- Configure java.util.logging -->
